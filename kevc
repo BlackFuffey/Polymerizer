@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+process.emitWarning = () => {};
+
+import('./build/App.js')
+
