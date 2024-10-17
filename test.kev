@@ -1,0 +1,4 @@
+int ingeger = -153;
+uint unsignedInt = 24;
+int<32> size32Int = 523;
+return ingeger;
