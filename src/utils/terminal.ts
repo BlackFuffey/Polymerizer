@@ -2,10 +2,28 @@ import chalk from "chalk";
 import cliSpinners from "cli-spinners";
 import readline from "readline";
 import stripAnsi from "strip-ansi";
-import { SpinnerController } from "../types.js"
+import { SpinnerController, Spinner } from "../types.js"
+
+type SpinnerSettings = {
+    spin: Spinner;
+    success: string;
+    failure: string;
+}
+
+type TerminalSettings = {
+    spinner: SpinnerSettings
+}
+
+export const settings: TerminalSettings = {
+    spinner: {
+        spin: cliSpinners.toggle3,
+        success: "✔",
+        failure: "✘"
+    }
+}
 
 const terminal = {
-    
+
     err: (msg: string) => {
         console.error(chalk.red(msg));
     },
@@ -22,13 +40,11 @@ const terminal = {
         console.warn(chalk.yellow(msg));
     },
 
-    snippet: (msgBefore: string, msgAfter: string, from: number) => {
+    snippet: (msgBefore: string, err: string, msgAfter: string, from: number) => {
         const beforeLines = msgBefore.split('\n');
         const afterLines = msgAfter.split('\n');
         
-        const errChar = afterLines[0].charAt(0);
-
-        const errLine = beforeLines.pop() + chalk.red(errChar) + afterLines.shift()!.slice(1);
+        const errLine = beforeLines.pop() + chalk.red(err) + afterLines.shift();
         
         const lines = [ ...beforeLines, errLine, ...afterLines ];
 
@@ -54,7 +70,10 @@ const terminal = {
     },
 
 
-    spin: (msg: string): SpinnerController => {
+    spin: (msg: string, settingOverride:SpinnerSettings = settings.spinner): SpinnerController => {
+        
+        let { spin, success, failure } = settingOverride;
+
         let finished = false;
         let error = false;
         let finishSpin: () => void = () => {
@@ -67,10 +86,16 @@ const terminal = {
             promise: new Promise<void>(resolve => finishSpin = resolve)
         }
 
-        new Promise((resolve, reject) => {
-            spinController.resolve = resolve,
-            spinController.reject = reject
-        }).catch(e => error = true).finally(() => finished = true);
+        new Promise<void>((resolve, reject) => {
+            spinController.resolve = async () => {
+                resolve();
+                return spinController.promise;
+            },
+            spinController.reject = async () => {
+                reject();
+                return spinController.promise;
+            }
+        }).catch(() => error = true).finally(() => finished = true);
 
         (async () => {
             let atFrame = 0;
@@ -79,25 +104,25 @@ const terminal = {
                 readline.cursorTo(process.stdout, 0);
 
                 process.stdout.write(msg.replace(
-                    '%spin%', cliSpinners.toggle3.frames[atFrame]
+                    '%spin%', spin.frames[atFrame]
                 ))
 
                 atFrame++;
                 
-                if (atFrame >= cliSpinners.toggle3.frames.length) atFrame = 0;
+                if (atFrame >= spin.frames.length) atFrame = 0;
 
-                await new Promise(resolve => setTimeout(resolve, cliSpinners.toggle3.interval));
+                await new Promise(resolve => setTimeout(resolve, spin.interval));
             }
             readline.clearLine(process.stdout, 0);
             readline.cursorTo(process.stdout, 0);
             
             if (!error)
                 terminal.out(msg.replace(
-                    '%spin%', chalk.green('✔')
+                    '%spin%', chalk.green(success)
                 ))
             else
                 terminal.err(msg.replace(
-                    '%spin%', '✘'
+                    '%spin%', failure
                 ))
 
             finishSpin();
