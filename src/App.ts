@@ -12,16 +12,21 @@ if (process.argv.length <= 2) {
 
 const path = process.argv.pop();
 
+let source: string = '';
+
 try {
     if (!fs.statSync(path!).isFile()){
         terminal.err(`Bad usage: "${path}" is not a file`)
         process.exit(1);
     }
 
-    compile(fs.readFileSync(path!, 'utf8'));
+    source = fs.readFileSync(path!, 'utf8');
+    
+    compile(source);
 
 } catch (err) {
     // @ts-ignore
     terminal.err(err);
 }
 
+export default source;
