@@ -2,5 +2,5 @@
 
 process.emitWarning = () => {};
 
-import('./build/App.js')
+import('../build/App.js')
 

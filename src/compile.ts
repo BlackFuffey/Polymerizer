@@ -16,7 +16,7 @@ export default async (src: string) => {
 
 async function parseCST(tokens: IToken[]){
     
-    const spinner = terminal.spin("%spin%  Building Syntax Tree")
+    const spinner = terminal.spin("%spin%  Building Concrete Syntax Tree")
 
     const cst = KevlarCSTParser.parse(tokens);
 
@@ -48,7 +48,7 @@ async function tokenize(src: string){
 
             tokens.errors.forEach( err => {
                 const errInfo = JSON.parse(err.message);
-                console.log(errInfo)
+                console.log()
                 terminal.err(errInfo.header);
                 terminal.snippet(errInfo.before, errInfo.error, errInfo.after, errInfo.line==1 ? 1 : errInfo.line-1)
             })

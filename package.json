@@ -10,6 +10,9 @@
         "dev": "nodemon --watch src --ext ts --exec 'node --loader ts-node/esm src/App.ts'",
         "dev-nowatch": "node --loader ts-node/esm src/App.ts"
     },
+    "bin": {
+        "polyc": "./bin/polyc"
+    },
     "author": "",
     "license": "GPL",
     "devDependencies": {
