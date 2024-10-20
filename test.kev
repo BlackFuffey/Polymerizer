@@ -1,4 +1,6 @@
-int ingeger = -153;
-uint unsignedInt = 24;
+int<45> ingeger = -153;
+uint<32> unsignedInt = u12;
 int<32> size32Int = 523;
+
+ingeger = unsignedInt;
 exit ingeger;

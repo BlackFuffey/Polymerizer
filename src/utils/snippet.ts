@@ -1,4 +1,7 @@
-export default function extractSnippet(inputText: string, startOffset: number, endOffset: number) {
+import { source } from "../App.js";
+
+export default function extractSnippet(startOffset: number, endOffset: number) {
+    const inputText = source;
 
     // prevent overlapping last character
     endOffset++;

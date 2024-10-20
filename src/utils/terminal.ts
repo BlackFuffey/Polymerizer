@@ -2,7 +2,7 @@ import chalk from "chalk";
 import cliSpinners from "cli-spinners";
 import readline from "readline";
 import stripAnsi from "strip-ansi";
-import { SpinnerController, Spinner } from "../types.js"
+import { SpinnerController, Spinner, FileCompileError } from "../types.js"
 
 type SpinnerSettings = {
     spin: Spinner;
@@ -16,7 +16,7 @@ type TerminalSettings = {
 
 export const settings: TerminalSettings = {
     spinner: {
-        spin: cliSpinners.toggle3,
+        spin: cliSpinners.dots,
         success: "✔",
         failure: "✘"
     }
@@ -40,6 +40,13 @@ const terminal = {
         console.warn(chalk.yellow(msg));
     },
 
+    serr: (e: FileCompileError) => {
+        console.log();
+        terminal.info(`${e.filename}: ${e.line}-${e.column}`);
+        terminal.err(e.header);
+        terminal.snippet(e.before, e.error, e.after, e.line==1 ? 1 : e.line);
+    },
+
     snippet: (msgBefore: string, err: string, msgAfter: string, from: number) => {
         const beforeLines = msgBefore.split('\n');
         const afterLines = msgAfter.split('\n');
@@ -57,8 +64,7 @@ const terminal = {
             return max;
         }, 0)
 
-        lines.forEach( line  => {
-            
+        lines.forEach( line => {
             const lineNum = chalk.dim(`${atLine}`.padStart(lineNumDigit, ' '));
             const lineTrail = ' '.repeat(lineLen - stripAnsi(line).length)
             const display = ` ${lineNum}  ${line}${lineTrail} `

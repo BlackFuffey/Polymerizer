@@ -1,17 +1,41 @@
 
-import { IToken } from "chevrotain";
-import KevlarCSTParser from "./st/Cst.js";
+import { CstNode, IToken } from "chevrotain";
+import { KevlarCSTParser } from "./cst/Cst.js";
 import KevlarLexer from "./lexer/Lexer.js"
 import terminal from "./utils/terminal.js";
+import { KevlarCstToAst } from "./ast/Traverse.js";
+import { atfile } from "./App.js";
 
 
-export default async (src: string) => {
+export default async function compile(src: string) {
 
     const tokens = await tokenize(src);
 
     const cst = await parseCST(tokens);    
-    console.log(JSON.stringify(cst, null, 4));
 
+    const ast = await buildAST(cst!);
+
+    console.log(JSON.stringify(ast, null, 4));
+
+}
+
+async function buildAST(cst: CstNode){
+    
+    const spinner = terminal.spin("%spin%  Building Abstract Syntax Tree");
+    
+    const { errors, ast } = KevlarCstToAst.build(cst);
+
+    if (errors.length > 0){
+        await spinner.reject();
+        errors.forEach( err => 
+            terminal.serr({...err, filename: atfile}) 
+        );
+        process.exit(1);
+    }
+
+    await spinner.resolve();
+
+    return ast;
 }
 
 async function parseCST(tokens: IToken[]){
@@ -25,16 +49,14 @@ async function parseCST(tokens: IToken[]){
 
         cst.errors.forEach( err => {
             const errInfo = JSON.parse(err.message);
-            console.log()
-            terminal.err(errInfo.header);
-            terminal.snippet(errInfo.before, errInfo.error, errInfo.after, errInfo.line==1 ? 1 : errInfo.line-1)
+            terminal.serr({...errInfo, filename: atfile});
         })
         process.exit(1);
     }
 
     await spinner.resolve();
 
-    return cst;
+    return cst.result;
 }
 
 async function tokenize(src: string){
@@ -48,9 +70,7 @@ async function tokenize(src: string){
 
             tokens.errors.forEach( err => {
                 const errInfo = JSON.parse(err.message);
-                console.log()
-                terminal.err(errInfo.header);
-                terminal.snippet(errInfo.before, errInfo.error, errInfo.after, errInfo.line==1 ? 1 : errInfo.line-1)
+                terminal.serr({...errInfo, filename: atfile});
             })
             process.exit(1)
         } else {
