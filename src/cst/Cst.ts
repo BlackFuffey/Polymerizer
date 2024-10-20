@@ -1,6 +1,7 @@
-import { CstParser, CstNode, TokenType, IToken } from "chevrotain";
+import { CstParser, CstNode, IToken } from "chevrotain";
 import Tokens from "../lexer/tokens.js";
 import KevlarParserErrorMessageProvider from "./ParserErrmsgProvider.js";
+import { UIntLiteral } from "../lexer/tokens/literals.js";
 
 const { 
     Int, 
@@ -35,7 +36,7 @@ class KevlarParser extends CstParser {
             this.OR([
                 { ALT: () => this.SUBRULE(this.variableDeclaration, { LABEL: "variableDeclaration" }) },
                 { ALT: () => this.SUBRULE(this.assignment, { LABEL: "assignment" }) },
-                { ALT: () => this.SUBRULE(this.exit, { LABEL: "exitStatement" }) }
+                { ALT: () => this.SUBRULE(this.exit, { LABEL: "exit" }) }
             ]);
         });
 
@@ -69,7 +70,8 @@ class KevlarParser extends CstParser {
 
         this.RULE("expression", () => {
             this.OR([
-                { ALT: () => this.CONSUME(IntLiteral, { LABEL: "literalValue" }) },
+                { ALT: () => this.CONSUME(IntLiteral, { LABEL: "intLiteral" }) },
+                { ALT: () => this.CONSUME(UIntLiteral, { LABEL: "uintLiteral" }) },
                 { ALT: () => this.CONSUME(Identifier, { LABEL: "variableRef" }) }
             ]);
         });
@@ -78,16 +80,20 @@ class KevlarParser extends CstParser {
     }
 }
 
-const KevlarCSTParser = {
+const parser = new KevlarParser();
+
+export const KevlarCSTParser = {
     parse: (tokens: IToken[]) => {
-        const parser = new KevlarParser();
 
         parser.input = tokens;
 
         const cst = parser.program();
 
-        return { errors: parser.errors, result: cst ? cst.children.statement : undefined }; 
+        return { errors: parser.errors, result: cst }; 
     }
 };
 
-export default KevlarCSTParser;
+export const KevlarVisitorBase = parser.getBaseCstVisitorConstructor()
+
+export const KevlarDefaultVisitorBase  = parser.getBaseCstVisitorConstructorWithDefaults();
+

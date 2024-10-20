@@ -9,3 +9,16 @@ export type Spinner = {
     interval: number;
     frames: string[];
 }
+
+export type CompileError = {
+    header: string;
+    before: string;
+    error: string;
+    after: string;
+    line: number;
+    column: number;
+}
+
+export type FileCompileError = CompileError & {
+    filename: string;
+}

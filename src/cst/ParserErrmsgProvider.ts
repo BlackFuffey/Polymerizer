@@ -1,12 +1,9 @@
 import { 
-    IParserConfig, 
     IParserErrorMessageProvider, 
-    IRecognitionException,
     IToken,
     TokenType
 } from "chevrotain";
 import extractSnippet from "../utils/snippet.js";
-import source from "../App.js";
 
 type MissmatchTokenErrorOptions = {
     expected: TokenType;
@@ -29,7 +26,6 @@ const KevlarParserErrorMessageProvider: IParserErrorMessageProvider = {
         const { startOffset, endOffset, image, startLine, startColumn } = options.actual;
 
         const snippet = extractSnippet(
-            source, 
             startOffset,
             endOffset || startOffset
         );
@@ -75,7 +71,6 @@ const KevlarParserErrorMessageProvider: IParserErrorMessageProvider = {
         });
 
         const snippet = extractSnippet(
-            source,
             actual.startOffset,
             actual.endOffset || actual.startOffset
         )

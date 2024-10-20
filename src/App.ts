@@ -2,7 +2,7 @@ import fs from 'fs';
 import chalk from 'chalk';
 import cliSpinners from 'cli-spinners';
 import terminal from './utils/terminal.js';
-import compile from './compile.js';
+import compile from './Compile.js';
 
 
 if (process.argv.length <= 2) {
@@ -12,7 +12,8 @@ if (process.argv.length <= 2) {
 
 const path = process.argv.pop();
 
-let source: string = '';
+export let source: string = '';
+export let atfile: string = path || '';
 
 try {
     if (!fs.statSync(path!).isFile()){
@@ -29,4 +30,3 @@ try {
     terminal.err(err);
 }
 
-export default source;

@@ -5,9 +5,10 @@ const KevlarLexerErrorMessageProvider: ILexerErrorMessageProvider = {
     buildUnexpectedCharactersMessage(fullText: string, startOffset: number, length: number, line?: number, column?: number): string {
         const badToken = fullText.substring(startOffset, startOffset + length);
         return JSON.stringify({
-            header: `Unexpected symbol "${badToken}" at line ${line} column ${column}`,
-            ...extractSnippet(fullText, startOffset, startOffset),
-            line
+            header: `Unexpected symbol "${badToken}"`,
+            ...extractSnippet(startOffset, startOffset),
+            line,
+            column
         })
     },
 
