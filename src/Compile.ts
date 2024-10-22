@@ -5,6 +5,9 @@ import KevlarLexer from "./lexer/Lexer.js"
 import terminal from "./utils/terminal.js";
 import { KevlarCstToAst } from "./ast/Traverse.js";
 import { atfile } from "./App.js";
+import { ASTNode } from "./ast/types.js";
+import KevlarAstToLLVMIR from "./codegen/llvmir.js";
+import { clang } from "./codegen/binary.js";
 
 
 export default async function compile(src: string) {
@@ -15,8 +18,49 @@ export default async function compile(src: string) {
 
     const ast = await buildAST(cst!);
 
-    console.log(JSON.stringify(ast, null, 4));
+    const ir = await genIR(ast);
 
+    console.log(ir);
+
+    //await genBin(ir);
+
+}
+
+async function genBin(ir: string){
+    
+    const spinner = terminal.spin("%spin%  Compiling");
+    
+    try {
+
+        await clang(ir, `${process.cwd()}/${atfile}.bin`)
+
+    } catch (e: any) {
+        await spinner.reject();
+        terminal.err(e.stack);
+        process.exit(-1);
+    }
+    
+    await spinner.resolve();
+}
+
+async function genIR(ast: ASTNode<undefined>){
+
+    const spinner = terminal.spin("%spin%  Generating Intermediate Representation");
+    
+    let ir: string;
+
+    try {
+
+        ir = KevlarAstToLLVMIR(ast);
+
+    } catch (e: any) {
+        await spinner.reject();
+        terminal.err(e.stack);
+        process.exit(-1);
+    }
+
+    await spinner.resolve();
+    return ir;
 }
 
 async function buildAST(cst: CstNode){
