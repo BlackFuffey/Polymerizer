@@ -29,4 +29,3 @@ try {
     // @ts-ignore
     terminal.err(err);
 }
-
