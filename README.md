@@ -20,7 +20,7 @@ npm install
 npm run build
 ```
 You can find the entry script in bin/polyc \
-To link all content in bin, run \
+To make polyc a globally executable command, run
 ```
-npm link
+sudo npm link
 ```
