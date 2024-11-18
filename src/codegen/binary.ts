@@ -1,3 +1,5 @@
+/*
+
 import { spawn } from "child_process";
 
 // Function to compile LLVM IR string to binary using clang
@@ -30,3 +32,4 @@ export function clang(llvmIR: string, outputFilePath: string): Promise<void> {
     });
 }
 
+*/

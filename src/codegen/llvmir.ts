@@ -1,3 +1,4 @@
+/*
 import { ASTExitProps, ASTExpression, ASTLitProps, ASTNode, ASTType, ASTVarProps } from "../ast/types.js";
 
 type LLVMVar = {
@@ -129,3 +130,4 @@ export default function generateLLVM(ast: ASTNode<any>): string {
     return llvmCode;
 }
 
+*/

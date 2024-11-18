@@ -5,7 +5,7 @@
     "description": "Compiler frontend for Kevlar",
     "main": "build/App.js",
     "scripts": {
-        "build": "tsc",
+        "build-ts": "tsc",
         "start": "node build/App.js",
         "dev": "nodemon --watch src --ext ts --exec 'node --loader ts-node/esm src/App.ts'",
         "dev-nowatch": "node --loader ts-node/esm src/App.ts"
