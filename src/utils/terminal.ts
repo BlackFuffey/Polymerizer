@@ -24,6 +24,11 @@ export const settings: TerminalSettings = {
 
 const terminal = {
 
+    crash: (msg: string, exitcode=1) => {
+        console.error(chalk.red(msg));
+        process.exit(1);
+    },
+
     err: (msg: string) => {
         console.error(chalk.red(msg));
     },

@@ -6,11 +6,15 @@ import terminal from "./utils/terminal.js";
 import { KevlarCstToAst } from "./ast/Traverse.js";
 import { atfile } from "./App.js";
 import { ASTNode } from "./ast/types.js";
-import KevlarAstToLLVMIR from "./codegen/llvmir.js";
-import { clang } from "./codegen/binary.js";
+//import KevlarAstToLLVMIR from "./codegen/llvmir.js";
+//import { clang } from "./codegen/binary.js";
 
+export enum CTarget {
+    BINARY,
+    LLVM_IR
+}
 
-export default async function compile(src: string) {
+export default async function compile(src: string, target=CTarget.BINARY) {
 
     const tokens = await tokenize(src);
 
@@ -18,11 +22,8 @@ export default async function compile(src: string) {
 
     const ast = await buildAST(cst!);
 
-    const ir = await genIR(ast);
+    console.log(JSON.stringify(ast));
 
-    console.log(ir);
-
-    //await genBin(ir);
 
 }
 
@@ -32,7 +33,7 @@ async function genBin(ir: string){
     
     try {
 
-        await clang(ir, `${process.cwd()}/${atfile}.bin`)
+        //await clang(ir, `${process.cwd()}/${atfile}.bin`)
 
     } catch (e: any) {
         await spinner.reject();
@@ -51,7 +52,7 @@ async function genIR(ast: ASTNode<undefined>){
 
     try {
 
-        ir = KevlarAstToLLVMIR(ast);
+        //ir = KevlarAstToLLVMIR(ast);
 
     } catch (e: any) {
         await spinner.reject();
@@ -60,7 +61,7 @@ async function genIR(ast: ASTNode<undefined>){
     }
 
     await spinner.resolve();
-    return ir;
+    //return ir;
 }
 
 async function buildAST(cst: CstNode){
