@@ -17,16 +17,20 @@ export enum CTarget {
     BINARY      = "bin",
 }
 
-export default async function compile(src: string, target=CTarget.BINARY): Promise<string | Buffer> {
+export type CompileParams = {
+    jsonIndent: boolean,
+    target: CTarget
+}
+
+export default async function compile(src: string, params: CompileParams): Promise<string | Buffer> {
 
     const tokens = await tokenize(src);
-    if (target === CTarget.TOKENS) return JSON.stringify(tokens);
+    if (params.target === CTarget.TOKENS) return toString(tokens, params.jsonIndent);
 
     const cst = await parseCST(tokens);    
-    if (target === CTarget.CST) return JSON.stringify(cst);
-
+    if (params.target === CTarget.CST) return toString(cst, params.jsonIndent);
     const ast = await buildAST(cst!);
-    if (target === CTarget.AST) return JSON.stringify(ast);
+    if (params.target === CTarget.AST) return toString(ast, params.jsonIndent);
 
     terminal.crash("feature not implemented");
 
@@ -136,4 +140,9 @@ async function tokenize(src: string){
         terminal.err(`An internal error has occured\n\n${err}`);
         process.exit(1);
     }
+}
+
+function toString(obj: any, indent: boolean) {
+    if (indent) return JSON.stringify(obj, null, 2);
+    else return JSON.stringify(obj);
 }
