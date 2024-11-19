@@ -10,20 +10,27 @@ import { ASTNode } from "./ast/types.js";
 //import { clang } from "./codegen/binary.js";
 
 export enum CTarget {
-    BINARY,
-    LLVM_IR
+    TOKENS      = "tokens",
+    CST         = "cst",
+    AST         = "ast",
+    LLVM_IR     = "llvmir",
+    BINARY      = "bin",
 }
 
-export default async function compile(src: string, target=CTarget.BINARY) {
+export default async function compile(src: string, target=CTarget.BINARY): Promise<string | Buffer> {
 
     const tokens = await tokenize(src);
+    if (target === CTarget.TOKENS) return JSON.stringify(tokens);
 
     const cst = await parseCST(tokens);    
+    if (target === CTarget.CST) return JSON.stringify(cst);
 
     const ast = await buildAST(cst!);
+    if (target === CTarget.AST) return JSON.stringify(ast);
 
-    console.log(JSON.stringify(ast));
+    terminal.crash("feature not implemented");
 
+    return '';
 
 }
 
