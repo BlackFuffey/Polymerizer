@@ -91,7 +91,7 @@ Possible Flags:
     --target=<target>       Specify compilation target
     --output=<file>         Specify output file, use - for stdout
     --silent                Disable status output on stdout, recommended if "--output=-" is used
-    --vbjson                Make output json human readable
+    --vbjson                Make json output human readable
 
 Possible targets:
     bin                     Compile to binary (default)
