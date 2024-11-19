@@ -17,10 +17,10 @@ clang
 Clone repo, cd in, and run:
 ```
 npm install
-npm run build
+npm run build-ts
 ```
 You can find the entry script in bin/polyc \
-To make polyc a globally executable command, run
+To make polyc globally accessible, run
 ```
 sudo npm link
 ```
