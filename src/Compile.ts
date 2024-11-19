@@ -100,6 +100,7 @@ async function parseCST(tokens: IToken[]){
         await spinner.reject();
 
         cst.errors.forEach( err => {
+            console.log(err);
             const errInfo = JSON.parse(err.message);
             terminal.serr({...errInfo, filename: atfile});
         })

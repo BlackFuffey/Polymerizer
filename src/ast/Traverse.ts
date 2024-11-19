@@ -64,6 +64,27 @@ class KevlarVisitor extends KevlarVisitorBase {
         }
     }
 
+    scope(ctx: StatementCtx): ASTNode<any> {
+        return {
+            type: ASTNodeTypes.UNIMPLEMENTED,
+            props: undefined
+        }
+    }
+
+    ifElseBlock(ctx: StatementCtx): ASTNode<any> {
+        return {
+            type: ASTNodeTypes.UNIMPLEMENTED,
+            props: undefined
+        }
+    }
+
+    scopeBlock(ctx: StatementCtx): ASTNode<any> {
+        return {
+            type: ASTNodeTypes.UNIMPLEMENTED,
+            props: undefined
+        }
+    }
+
     variableDeclaration(ctx: VariableDeclarationCtx): ASTNode<ASTVarProps> {
         const variable = ctx.varName[0];
         let node: ASTNode<ASTVarProps> = {

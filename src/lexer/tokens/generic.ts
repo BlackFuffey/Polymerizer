@@ -1,6 +1,6 @@
 import { createToken, Lexer } from "chevrotain";
 
-export const EndOfStatement = createToken({ name: "EndOfStatement", pattern: /(;|\n)/ });
+export const EndOfStatement = createToken({ name: "EndOfStatement", pattern: /\b(;|\n)/ });
 
 export const Identifier = createToken({ name: "Identifier", pattern: /[a-zA-Z_][a-zA-Z0-9_]*/ });
 
