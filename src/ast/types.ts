@@ -2,6 +2,7 @@ export enum ASTNodeTypes {
     PROGRAM                     = "PROGRAM",
     VARIABLE_DECLARE            = "VARIABLE_DECLARE",
     VARIABLE_ASSIGN             = "VARIABLE_ASSIGN",
+    IF_ELSE                     = "IF_ElSE",
     EXIT                        = "EXIT",
     UNIMPLEMENTED               = "UNIMPLEMENTED",
 }
