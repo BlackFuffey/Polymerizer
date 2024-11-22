@@ -1,4 +1,4 @@
-import Tokens from "../../lexer/tokens.js"
+import Tokens from "../../lexer/Tokens.js"
 
 const {
     Int, UnsignedInt, Boolean, Identifier, Assign, Semicolon

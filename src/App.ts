@@ -35,25 +35,25 @@ try {
         target: CTarget.BINARY
     }
 
-    process.argv.forEach(async (flag, i) => {
-        if (i < 2) return;
+    await Promise.all( process.argv.slice(2).map(async (flag) => {
+        const [flagname, value] = flag.split("=", 2);
 
-        const sflag = flag.split("=", 2);
-        switch (sflag[0]) {
+        switch (flagname) {
             case Flags.TARGET:
-                if (!Object.values(CTarget).includes(sflag[1] as CTarget)) 
-                    terminal.crash(`Bad usage: invalid target "${sflag[1]}"`)
+                if (!Object.values(CTarget).includes(value as CTarget)) 
+                    terminal.crash(`Bad usage: invalid target "${value}"`)
 
-                params.target = sflag[1] as CTarget;
+                params.target = value as CTarget;
                 return;
 
             case Flags.OUTPUT:
-                if (sflag[1] !== '-') {
-                    if (await isDir(sflag[i]))
-                        terminal.crash(`Bad usage: no such directory`);
+                if (value && value !== '-') {
+                    const absPath = path.resolve(value);
+                    if (!await isDir(path.dirname(absPath)))
+                        terminal.crash(`Bad usage: no such directory "${path.dirname(absPath)}"`);
                 }
                 
-output = sflag[1];
+                output = value;
                 return;
 
             case Flags.SILENT:
@@ -63,12 +63,11 @@ output = sflag[1];
             case Flags.VERBOSE_JSON:
                 params.jsonIndent = true;
                 return;
-                
 
             default:
                 terminal.crash(`Bad usage: flag "${flag}" was not understood`);
         }
-    })
+    }) )
     
     const result = await compile(source, params);
 
@@ -114,9 +113,21 @@ async function fileExists(filepath: string) {
 }
 
 async function isFile(filepath: string) {
-    return (await fs.stat(filepath)).isFile();
+    try {
+        return (await fs.stat(path.resolve(filepath))).isFile();
+    } catch (err) {
+        // @ts-ignore
+        if (err?.code === 'ENOENT') return false;
+        else throw err;
+    }
 }
 
 async function isDir(filepath: string) {
-    return (await fs.stat(filepath)).isDirectory();
+    try {
+        return (await fs.stat(filepath)).isDirectory();
+    } catch (err) {
+        // @ts-ignore
+        if (err?.code === 'ENOENT') return false;
+        else throw err;
+    }
 }

@@ -3,7 +3,7 @@ import { CstNode, IToken } from "chevrotain";
 import { KevlarCSTParser } from "./cst/Cst.js";
 import KevlarLexer from "./lexer/Lexer.js"
 import terminal from "./utils/terminal.js";
-import { KevlarCstToAst } from "./ast/Traverse.js";
+import { KevlarCstToAst } from "./ast/Ast.js";
 import { atfile } from "./App.js";
 import { ASTNode } from "./ast/types.js";
 //import KevlarAstToLLVMIR from "./codegen/llvmir.js";
@@ -104,9 +104,13 @@ async function parseCST(tokens: IToken[]){
         await spinner.reject();
 
         cst.errors.forEach( err => {
-            console.log(err);
-            const errInfo = JSON.parse(err.message);
-            terminal.serr({...errInfo, filename: atfile});
+            try {
+                const errInfo = JSON.parse(err.message);
+                terminal.serr({...errInfo, filename: atfile});
+            } catch (e) {
+                terminal.err("\nInternal Error")
+                terminal.crash(JSON.stringify(err));
+            }
         })
         process.exit(1);
     }

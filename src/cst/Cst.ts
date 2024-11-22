@@ -1,5 +1,5 @@
 import { CstParser, CstNode, IToken } from "chevrotain";
-import Tokens from "../lexer/tokens.js";
+import Tokens from "../lexer/Tokens.js";
 import KevlarParserErrorMessageProvider from "./ParserErrmsgProvider.js";
 
 // @ts-ignore

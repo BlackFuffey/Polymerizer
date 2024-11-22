@@ -1,4 +1,4 @@
-import Tokens from "../../../lexer/tokens.js"
+import Tokens from "../../../lexer/Tokens.js"
 
 export default function includeFlowControlRules(parser) {
 

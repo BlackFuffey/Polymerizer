@@ -40,6 +40,7 @@ export interface ExitCtx {
 export interface ExpressionCtx {
     intLiteral?: IToken[]; // Could be an IntLiteral token
     uintLiteral?: IToken[]; // Could be an UIntLiteral token
+    boolLiteral?: IToken[]; // Could be a boolean literal
     variableRef?: IToken[];  // Could be an Identifier token
 }
 

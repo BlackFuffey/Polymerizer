@@ -1,6 +1,6 @@
 import { createToken, Lexer } from "chevrotain";
 import KevlarLexerErrorMessageProvider from "./LexerErrmsgProvider.js";
-import { asArray as Tokens } from "./tokens.js";
+import { asArray as Tokens } from "./Tokens.js";
 
 
 // Create lexer

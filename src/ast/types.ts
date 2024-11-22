@@ -10,6 +10,7 @@ export enum ASTNodeTypes {
 export enum ASTExpTypes {
     INT                         = "int",
     UINT                        = "uint",
+    BOOL                        = "bool",
     BAD_TYPE                    = 0,
 }
 
@@ -37,7 +38,7 @@ export type ASTVarProps = {
 }
 
 export type ASTLitProps = {
-    literal: number;
+    literal: number | boolean | string;
 }
 
 export type ASTExitProps = {
