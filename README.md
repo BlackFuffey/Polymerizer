@@ -11,7 +11,6 @@ Feel free to check back once in a while!
 ## Build Dependencies
 ```
 node
-clang
 ```
 ## Instructions
 Clone repo, cd in, and run:
