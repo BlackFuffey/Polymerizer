@@ -5,7 +5,9 @@ This project is far from complete, and since I don't have any experience of writ
 Feel free to check back once in a while!
 
 # Usage
-`polyc path/to/program.kev [--flag1] [--flag2] [--flag3] ...` \
+```
+polyc path/to/program.kev [--flag1] [--flag2] [--flag3] ...
+```
 For help page, run `polyc` without any arguments.
 
 # Build
