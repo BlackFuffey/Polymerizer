@@ -4,8 +4,9 @@ int<32> size32Int = 523;
 
 int autoInteger = 341;
 
-unsignedInt = u32;
+bool what = false;
 
+unsignedInt = u32;
 ingeger = unsignedInt;
 
 

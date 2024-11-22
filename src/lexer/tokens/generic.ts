@@ -1,8 +1,9 @@
 import { createToken, Lexer } from "chevrotain";
 
-export const EndOfStatement = createToken({ name: "EndOfStatement", pattern: /\b(;|\n)/ });
+export const Semicolon = createToken({ name: "Semicolon", pattern: /;/ });
 
 export const Identifier = createToken({ name: "Identifier", pattern: /[a-zA-Z_][a-zA-Z0-9_]*/ });
+//export const Newline = createToken({ name: "Newline", pattern: /(?=\s*\n)\s+/ });
 
 export const ScopeStart = createToken({ name: "ScopeStart", pattern: /\{/ })
 export const ScopeEnd = createToken({ name: "ScopeEnd", pattern: /\}/ })

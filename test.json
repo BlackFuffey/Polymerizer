@@ -1,0 +1,192 @@
+{
+  "type": "PROGRAM",
+  "children": [
+    {
+      "type": "VARIABLE_DECLARE",
+      "props": {
+        "varname": "ingeger",
+        "type": {
+          "basetype": "int",
+          "display": "int<32>",
+          "props": {
+            "size": 32
+          }
+        },
+        "assign": {
+          "type": {
+            "basetype": "int",
+            "props": {
+              "size": 9
+            },
+            "display": "int<9>"
+          },
+          "components": {
+            "literal": -153
+          }
+        }
+      }
+    },
+    {
+      "type": "VARIABLE_DECLARE",
+      "props": {
+        "varname": "unsignedInt",
+        "type": {
+          "basetype": "uint",
+          "display": "uint<31>",
+          "props": {
+            "size": 31
+          }
+        },
+        "assign": {
+          "type": {
+            "basetype": "uint",
+            "props": {
+              "size": 4
+            },
+            "display": "uint<4>"
+          },
+          "components": {
+            "literal": 12
+          }
+        }
+      }
+    },
+    {
+      "type": "VARIABLE_DECLARE",
+      "props": {
+        "varname": "size32Int",
+        "type": {
+          "basetype": "int",
+          "display": "int<32>",
+          "props": {
+            "size": 32
+          }
+        },
+        "assign": {
+          "type": {
+            "basetype": "int",
+            "props": {
+              "size": 11
+            },
+            "display": "int<11>"
+          },
+          "components": {
+            "literal": 523
+          }
+        }
+      }
+    },
+    {
+      "type": "VARIABLE_DECLARE",
+      "props": {
+        "varname": "autoInteger",
+        "type": {
+          "basetype": "int",
+          "display": "int<32>",
+          "props": {
+            "size": 32
+          }
+        },
+        "assign": {
+          "type": {
+            "basetype": "int",
+            "props": {
+              "size": 10
+            },
+            "display": "int<10>"
+          },
+          "components": {
+            "literal": 341
+          }
+        }
+      }
+    },
+    {
+      "type": "VARIABLE_DECLARE",
+      "props": {
+        "varname": "what",
+        "type": {
+          "basetype": "bool",
+          "display": "bool",
+          "props": {}
+        },
+        "assign": {
+          "type": {
+            "basetype": "bool",
+            "display": "bool"
+          },
+          "components": {
+            "literal": false
+          }
+        }
+      }
+    },
+    {
+      "type": "VARIABLE_ASSIGN",
+      "props": {
+        "type": {
+          "basetype": "uint",
+          "display": "uint<31>",
+          "props": {
+            "size": 31
+          }
+        },
+        "varname": "unsignedInt",
+        "assign": {
+          "type": {
+            "basetype": "uint",
+            "props": {
+              "size": 6
+            },
+            "display": "uint<6>"
+          },
+          "components": {
+            "literal": 32
+          }
+        }
+      }
+    },
+    {
+      "type": "VARIABLE_ASSIGN",
+      "props": {
+        "type": {
+          "basetype": "int",
+          "display": "int<32>",
+          "props": {
+            "size": 32
+          }
+        },
+        "varname": "ingeger",
+        "assign": {
+          "type": {
+            "basetype": "uint",
+            "display": "uint<31>",
+            "props": {
+              "size": 31
+            }
+          },
+          "components": {
+            "varname": "unsignedInt"
+          }
+        }
+      }
+    },
+    {
+      "type": "EXIT",
+      "props": {
+        "exitCode": {
+          "type": {
+            "basetype": "int",
+            "display": "int<32>",
+            "props": {
+              "size": 32
+            }
+          },
+          "components": {
+            "varname": "ingeger"
+          }
+        }
+      }
+    }
+  ]
+}

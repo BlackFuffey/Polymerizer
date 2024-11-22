@@ -19,6 +19,11 @@ type NoViableAltErrorOptions = {
     ruleName: string;
 }
 
+type NotAllInputParsedErrorOptions = {
+    firstRedundant: IToken;
+    ruleName: string;
+}
+
 const KevlarParserErrorMessageProvider: IParserErrorMessageProvider = {
     // Custom error message for a mismatched token
     buildMismatchTokenMessage(options: MissmatchTokenErrorOptions) {
@@ -92,11 +97,21 @@ const KevlarParserErrorMessageProvider: IParserErrorMessageProvider = {
      //     .join(" or ")}.`;
     },
 
-    // Additional error types can be handled here...
-    buildNotAllInputParsedMessage(options: any) {
-        return "Not all input parsed message not implemented";
-        //  return `Error: Unexpected token "${firstRedundant.image}".`;
-    }
+    buildNotAllInputParsedMessage(options: NotAllInputParsedErrorOptions) {
+        
+        const { startOffset, endOffset, image, startLine, startColumn } = options.firstRedundant;
+
+        const snippet = extractSnippet(
+            startOffset,
+            endOffset || startOffset
+        );
+
+        return JSON.stringify({
+            header: `Unexpected token "${image}" at line ${startLine} column ${startColumn}. (${options.ruleName})`,
+            ...snippet,
+            line: startLine
+        });
+    },
 }
 
 export default KevlarParserErrorMessageProvider;
