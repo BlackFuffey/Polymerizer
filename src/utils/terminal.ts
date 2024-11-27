@@ -19,9 +19,9 @@ type TerminalSettings = {
 export const settings: TerminalSettings = {
     spinner: {
         spin: cliSpinners.dots,
-        success: "✔",
-        failure: "✘",
-        degrade: "⚠",
+        success: "✔ ",
+        failure: "✘ ",
+        degrade: " ",
     },
     mute: false
 }
@@ -152,7 +152,7 @@ const terminal = {
                 readline.cursorTo(process.stdout, 0);
 
                 process.stdout.write(msg.replace(
-                    '%spin%', spin.frames[atFrame]
+                    '%spin%', `${spin.frames[atFrame]} `
                 ))
 
                 atFrame++;
