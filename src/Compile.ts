@@ -79,7 +79,7 @@ async function buildAST(cst: CstNode){
     
     const spinner = terminal.spin("%spin%  Building Abstract Syntax Tree");
     
-    const { errors, ast } = KevlarCstToAst.build(cst);
+    const { errors, ast, warns } = KevlarCstToAst.build(cst);
 
     if (errors.length > 0){
         await spinner.reject();
@@ -87,6 +87,13 @@ async function buildAST(cst: CstNode){
             terminal.serr({...err, filename: atfile}) 
         );
         process.exit(1);
+    }
+
+    if (warns.length > 0) {
+        await spinner.degrade();
+        warns.forEach( warn =>
+            terminal.swarn({...warn, filename: atfile})
+        );
     }
 
     await spinner.resolve();

@@ -70,6 +70,7 @@ try {
     }) )
     
     const result = await compile(source, params);
+    terminal.out("\nCompiled Successfully")
 
     if (output === '-'){
         console.log(result);

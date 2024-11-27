@@ -8,6 +8,7 @@ type SpinnerSettings = {
     spin: Spinner;
     success: string;
     failure: string;
+    degrade: string;
 }
 
 type TerminalSettings = {
@@ -19,7 +20,8 @@ export const settings: TerminalSettings = {
     spinner: {
         spin: cliSpinners.dots,
         success: "✔",
-        failure: "✘"
+        failure: "✘",
+        degrade: "⚠",
     },
     mute: false
 }
@@ -44,9 +46,9 @@ const terminal = {
         console.log(msg);
     },
 
-    info: (msg: string) => {
-        if (settings.mute) return;
-        console.info(chalk.grey(msg));
+    info: (msg: string, out:(msg:string)=>void = console.info) => {
+        //if (settings.mute) return;
+        out(chalk.grey(msg));
     },
 
     warn: (msg: string) => {
@@ -55,9 +57,16 @@ const terminal = {
 
     serr: (e: FileCompileError) => {
         console.error();
-        terminal.info(`${e.filename}: ${e.line}-${e.column}`);
+        terminal.info(`${e.filename}: ${e.line}-${e.column}`, console.error);
         terminal.err(e.header);
         terminal.snippet(e.before, e.error, e.after, e.line==1 ? 1 : e.line, console.error);
+    },
+
+    swarn: (e: FileCompileError) => {
+        console.error();
+        terminal.info(`${e.filename}: ${e.line}-${e.column}`, console.warn);
+        terminal.warn(e.header);
+        terminal.snippet(e.before, e.error, e.after, e.line==1 ? 1 : e.line, console.warn);
     },
 
     snippet: (msgBefore: string, err: string, msgAfter: string, from: number, output: (msg:string)=>void) => {
@@ -96,36 +105,45 @@ const terminal = {
                 promise: new Promise<void>(resolve => resolve()),
                     resolve: () => obj.promise,
                     reject: () => obj.promise,
+                    degrade: () => obj.promise,
+
             };
                 
             return obj;
         }
 
 
-        let { spin, success, failure } = settingOverride;
+        const { spin, success, failure, degrade } = settingOverride;
 
         let finished = false;
-        let error = false;
+        let state = 0;
         let finishSpin: () => void = () => {
             terminal.err("Spinner resolver was unset");
             process.exit(1);
         };
 
         const spinController: any = {
-            resolve: undefined, reject: undefined, 
+            resolve: undefined, reject: undefined, degrade: undefined,
             promise: new Promise<void>(resolve => finishSpin = resolve)
         };
 
         new Promise<void>((resolve, reject) => {
             spinController.resolve = async () => {
                 resolve();
+                state = 1;
+                return spinController.promise;
+            },
+            spinController.degrade = async () => {
+                resolve();
+                state = 2;
                 return spinController.promise;
             },
             spinController.reject = async () => {
-                reject();
+                resolve();
+                state = 3;
                 return spinController.promise;
             }
-        }).catch(() => error = true).finally(() => finished = true);
+        }).finally(() => finished = true);
 
         (async () => {
             let atFrame = 0;
@@ -146,11 +164,15 @@ const terminal = {
             readline.clearLine(process.stdout, 0);
             readline.cursorTo(process.stdout, 0);
 
-            if (!error)
+            if (state === 1)
                 terminal.out(msg.replace(
                     '%spin%', chalk.green(success)
                 ))
-            else
+            if (state === 2)
+                terminal.warn(msg.replace(
+                    '%spin%', degrade
+                ))
+            if (state === 3)
                 terminal.err(msg.replace(
                     '%spin%', failure
                 ))

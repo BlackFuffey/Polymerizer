@@ -1,5 +1,5 @@
-int ingeger = -153;
-uint<31> unsignedInt = u12;
+int<64> ingeger = -153;
+uint<32> unsignedInt = u12;
 int<32> size32Int = 523;
 
 int autoInteger = 341;

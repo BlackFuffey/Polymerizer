@@ -3,6 +3,7 @@ export type SpinnerController = {
     promise: Promise<void>;
     resolve: () => Promise<void>;
     reject: () => Promise<void>;
+    degrade: () => Promise<void>;
 }
 
 export type Spinner = {

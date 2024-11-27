@@ -18,7 +18,7 @@ const visitor = new KevlarVisitor();
 export const KevlarCstToAst = {
     
     build(cst: CstNode[] | CstNode){
-        return { errors: Context.errors, ast: visitor.visit(cst) };
+        return { errors: Context.errors, warns: Context.warns, ast: visitor.visit(cst) };
     }
 
 } 
