@@ -1,7 +1,7 @@
 import { IToken } from "chevrotain";
 import { ASTExpTypes, ASTType } from "./types.js";
 import extractSnippet from "../utils/snippet.js";
-import { InvalidType } from "./errors.js";
+import { InvalidType, NonStdSize } from "./errors.js";
 import { CompileError } from "../types.js";
 import Context from "./Context.js";
 
@@ -25,10 +25,16 @@ const Helper = {
                 case `${ASTExpTypes.UINT}-${ASTExpTypes.UINT}`:
                 return from.props.size! <= to.props.size!;
 
-            case  `${ASTExpTypes.BOOL}-${ASTExpTypes.BOOL}`: return true;
+            case `${ASTExpTypes.BOOL}-${ASTExpTypes.BOOL}`: return true;
 
             default: return false;
         }
+    },
+
+    isStdSize: (size: number): boolean => {
+        if (size <= 0) return false;
+
+        return (size & (size - 1)) == 0;
     },
 
     typeTokenToASTType: (token: IToken): ASTType<any> => {
@@ -52,6 +58,18 @@ const Helper = {
                         exp.props.size = imgRes[1]==='auto' ? -1 : Number(imgRes[1]);
 
                     } else exp.props.size = 32;
+
+                    if (!Helper.isStdSize(exp.props.size)) {
+                        Context.warns.push({
+                            header: NonStdSize(exp.props.size),
+                            ...extractSnippet(
+                                token.startOffset,
+                                token.endOffset || token.startOffset
+                            ),
+                            line: token.startLine || NaN,
+                            column: token.endLine || NaN
+                        })
+                    }
 
                     exp.display = `${exp.basetype}<${exp.props.size}>`;
                 break;

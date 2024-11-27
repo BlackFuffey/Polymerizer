@@ -7,11 +7,13 @@ type ContextType = {
     },
 
     errors: CompileError[];
+    warns: CompileError[];
 }
 
 const Context: ContextType = {
     variables: {},
-    errors: []
+    errors: [],
+    warns: []
 }
 
 export default Context
