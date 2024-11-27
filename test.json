@@ -7,9 +7,9 @@
         "varname": "ingeger",
         "type": {
           "basetype": "int",
-          "display": "int<64>",
+          "display": "int<63>",
           "props": {
-            "size": 64
+            "size": 63
           }
         },
         "assign": {
@@ -151,9 +151,9 @@
       "props": {
         "type": {
           "basetype": "int",
-          "display": "int<64>",
+          "display": "int<63>",
           "props": {
-            "size": 64
+            "size": 63
           }
         },
         "varname": "ingeger",
@@ -177,9 +177,9 @@
         "exitCode": {
           "type": {
             "basetype": "int",
-            "display": "int<64>",
+            "display": "int<63>",
             "props": {
-              "size": 64
+              "size": 63
             }
           },
           "components": {

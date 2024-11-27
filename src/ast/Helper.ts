@@ -32,9 +32,7 @@ const Helper = {
     },
 
     isStdSize: (size: number): boolean => {
-        if (size <= 0) return false;
-
-        return (size & (size - 1)) == 0;
+        return size % 8 === 0;
     },
 
     typeTokenToASTType: (token: IToken): ASTType<any> => {
