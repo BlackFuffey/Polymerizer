@@ -68,6 +68,18 @@ const Helper = {
                             })
                         }
 
+                        if (exp.basetype === ASTExpTypes.UINT && exp.props.size < 1) {
+                            Context.errors.push({
+                                header: SizeTooSmall(ASTExpTypes.UINT, exp.props.size, 1),
+                                ...extractSnippet(
+                                    token.startOffset,
+                                    token.endOffset || token.startOffset
+                                ),
+                                line: token.startLine || NaN,
+                                column: token.endLine || NaN
+                            })
+                        }
+
                     } else exp.props.size = 32;
 
                     if (!Helper.isStdSize(exp.props.size)) {
