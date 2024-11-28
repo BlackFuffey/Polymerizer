@@ -29,7 +29,7 @@ export default function includeVariableASTRules(visitor: KevlarVisitor) {
                 column: variable.startColumn || -1,
             })
         } else {
-            Context.variables[variable.image] = Helper.typeTokenToASTType(ctx.dataType[0]);
+            Context.variables[variable.image] = node.props.type;
         }
 
         if (ctx.initialValue) {
