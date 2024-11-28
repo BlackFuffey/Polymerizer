@@ -4,6 +4,7 @@ export enum ASTNodeTypes {
     VARIABLE_ASSIGN             = "VARIABLE_ASSIGN",
     IF_ELSE                     = "IF_ElSE",
     EXIT                        = "EXIT",
+    PRINT                       = "PRINT",
     UNIMPLEMENTED               = "UNIMPLEMENTED",
 }
 
@@ -39,6 +40,10 @@ export type ASTVarProps = {
 
 export type ASTLitProps = {
     literal: number | boolean | string;
+}
+
+export type ASTPrintProps = {
+    content: any;
 }
 
 export type ASTExitProps = {

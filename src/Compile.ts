@@ -32,7 +32,7 @@ export default async function compile(src: string, params: CompileParams): Promi
     const ast = await buildAST(cst!);
     if (params.target === CTarget.AST) return toString(ast, params.jsonIndent);
 
-    terminal.crash("feature not implemented");
+    terminal.crash("\nfeature not implemented");
 
     return '';
 
