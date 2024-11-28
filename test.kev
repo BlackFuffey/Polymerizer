@@ -1,4 +1,4 @@
-int<63> ingeger = -153;
+int<1> ingeger = 0;
 uint<32> unsignedInt = u12;
 int<32> size32Int = 523;
 

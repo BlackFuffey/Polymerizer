@@ -1,12 +1,13 @@
 import { IToken } from "chevrotain";
 import { ASTExpTypes, ASTType } from "./types.js";
 import extractSnippet from "../utils/snippet.js";
-import { InvalidType, NonStdSize } from "./errors.js";
+import { InvalidType, NonStdSize, SizeTooSmall } from "./errors.js";
 import { CompileError } from "../types.js";
 import Context from "./Context.js";
 
 const Helper = {
     minBit: (n: number): number => {
+        console.log(`n: ${n}  is0: ${n===0}`);
         if (n === 0) return 1;
         return Math.floor(Math.log2(Math.abs(n))) + 1;
     },
@@ -53,7 +54,19 @@ const Helper = {
                     if (imgRes.length > 1){
 
                         imgRes[1] = imgRes[1].substring(0, imgRes[1].length-1);
-                        exp.props.size = imgRes[1]==='auto' ? -1 : Number(imgRes[1]);
+                        exp.props.size = imgRes[1]==='auto' ? 32 : Number(imgRes[1]);
+
+                        if (exp.basetype === ASTExpTypes.INT && exp.props.size < 2) {
+                            Context.errors.push({
+                                header: SizeTooSmall(ASTExpTypes.INT, exp.props.size, 2),
+                                ...extractSnippet(
+                                    token.startOffset,
+                                    token.endOffset || token.startOffset
+                                ),
+                                line: token.startLine || NaN,
+                                column: token.endLine || NaN
+                            })
+                        }
 
                     } else exp.props.size = 32;
 

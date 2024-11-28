@@ -17,3 +17,7 @@ export const InvalidType = (type: string) => {
 export const NonStdSize = (size: number) => {
     return `Non-standard size ${size} may impact performance`;
 }
+
+export const SizeTooSmall = (type: string, size: number, min: number) => {
+    return `Type "${type}" needs to be at least size ${min} but got size ${size}`
+}
