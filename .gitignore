@@ -131,3 +131,6 @@ build/
 .pnp.*
 
 package-lock.json
+
+test.json
+a.out
