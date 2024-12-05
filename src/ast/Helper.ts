@@ -7,7 +7,6 @@ import Context from "./Context.js";
 
 const Helper = {
     minBit: (n: number): number => {
-        console.log(`n: ${n}  is0: ${n===0}`);
         if (n === 0) return 1;
         return Math.floor(Math.log2(Math.abs(n))) + 1;
     },

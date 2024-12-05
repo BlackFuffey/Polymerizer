@@ -1,4 +1,4 @@
-int<1> ingeger = 0;
+int<32> ingeger = 0;
 uint<32> unsignedInt = u12;
 int<32> size32Int = 523;
 
@@ -7,7 +7,8 @@ int autoInteger = 341;
 bool what = false;
 
 unsignedInt = u32;
-ingeger = unsignedInt;
+
+print 32;
 
 
 exit ingeger;

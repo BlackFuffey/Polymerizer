@@ -1,17 +1,14 @@
 import Tokens from "../../lexer/Tokens.js"
 
 const {
-    Int, UnsignedInt, Boolean, Identifier, Assign, Semicolon
+    Identifier, Assign
 } = Tokens
 
 export default function includeVariableRules(parser) {
 
     parser.RULE("variableDeclaration", () => {
-        parser.OR([
-            { ALT: () => parser.CONSUME(Int, { LABEL: "dataType" }) },
-            { ALT: () => parser.CONSUME(UnsignedInt, { LABEL: "dataType" }) },
-            { ALT: () => parser.CONSUME(Boolean, { LABEL: "dataType" }) }
-        ]);
+        parser.SUBRULE(parser.types, { LABEL: "dataType" });
+
         parser.CONSUME(Identifier, { LABEL: "varName" });
 
         parser.OPTION(() => {

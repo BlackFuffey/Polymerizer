@@ -11,6 +11,13 @@ export const ScopeEnd = createToken({ name: "ScopeEnd", pattern: /\}/ })
 export const ExpStart = createToken({ name: "ExpStart", pattern: /\(/ })
 export const ExpEnd = createToken({ name: "ExpEnd", pattern: /\)/ })
 
+export const Auto = createToken({ name: "Auto", pattern: /\bauto\b/ })
+
+export const TypeStart = createToken({ name: "TypeStart", pattern: /\</ });
+export const TypeEnd = createToken({ name: "TypeEnd", pattern: /\>/ });
+
+export const Separator = createToken({ name: "Separator", pattern: /\,/ })
+
 //  export const Comment = createToken({ 
 //      name: "Comment", 
 //      pattern: /\/\/.*|\/\*[\s\S]*?\*\//, 

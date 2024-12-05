@@ -14,7 +14,7 @@ export default function includeVariableASTRules(visitor: KevlarVisitor) {
             type: ASTNodeTypes.VARIABLE_DECLARE,
             props: {
                 varname: variable.image,
-                type: Helper.typeTokenToASTType(ctx.dataType[0]),
+                type: visitor.visit(ctx.dataType[0]),
             }
         }
 

@@ -32,7 +32,8 @@ export default function includeBaseRules(parser) {
         parser.OR1([
             { ALT: () => parser.SUBRULE(parser.variableDeclaration, { LABEL: "variableDeclaration" }) },
             { ALT: () => parser.SUBRULE(parser.assignment, { LABEL: "assignment" }) },
-            { ALT: () => parser.SUBRULE(parser.exit, { LABEL: "exit" }) }
+            { ALT: () => parser.SUBRULE(parser.exit, { LABEL: "exit" }) },
+            { ALT: () => parser.SUBRULE(parser.print, { LABEL: "print" }) },
         ]);
         
         parser.CONSUME(Tokens.Semicolon);
