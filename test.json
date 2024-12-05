@@ -7,21 +7,21 @@
         "varname": "ingeger",
         "type": {
           "basetype": "int",
-          "display": "int<63>",
+          "display": "int<32>",
           "props": {
-            "size": 63
+            "size": 32
           }
         },
         "assign": {
           "type": {
             "basetype": "int",
             "props": {
-              "size": 9
+              "size": 2
             },
-            "display": "int<9>"
+            "display": "int<2>"
           },
           "components": {
-            "literal": -153
+            "literal": 0
           }
         }
       }
@@ -147,26 +147,18 @@
       }
     },
     {
-      "type": "VARIABLE_ASSIGN",
+      "type": "PRINT",
       "props": {
-        "type": {
-          "basetype": "int",
-          "display": "int<63>",
-          "props": {
-            "size": 63
-          }
-        },
-        "varname": "ingeger",
-        "assign": {
+        "content": {
           "type": {
-            "basetype": "uint",
-            "display": "uint<32>",
+            "basetype": "int",
             "props": {
-              "size": 32
-            }
+              "size": 7
+            },
+            "display": "int<7>"
           },
           "components": {
-            "varname": "unsignedInt"
+            "literal": 32
           }
         }
       }
@@ -177,9 +169,9 @@
         "exitCode": {
           "type": {
             "basetype": "int",
-            "display": "int<63>",
+            "display": "int<32>",
             "props": {
-              "size": 63
+              "size": 32
             }
           },
           "components": {

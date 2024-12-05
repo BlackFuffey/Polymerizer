@@ -1,7 +1,8 @@
 import fs from 'fs/promises';
 import terminal from './utils/terminal.js';
-import compile, { CompileParams, CTarget } from './Compile.js';
+import { CompileParams, CTarget } from './types.js';
 import path from 'path';
+
 
 enum Flags {
     TARGET              = "--target",
@@ -23,6 +24,9 @@ export let source: string = '';
 export let atfile: string = filepath || '';
 
 try {
+    // import the compiler module asyncronously while processing command line args
+    const compilerImport = import('./Compile.js');
+
     if (!(await fileExists(filepath) && await isFile(filepath)))
         terminal.crash(`Bad usage: "${filepath}" is not a file`)
 
@@ -40,7 +44,7 @@ try {
 
         switch (flagname) {
             case Flags.TARGET:
-                if (!Object.values(CTarget).includes(value as CTarget)) 
+                if (!(value in CTarget)) 
                     terminal.crash(`Bad usage: invalid target "${value}"`)
 
                 params.target = value as CTarget;
@@ -69,6 +73,9 @@ try {
         }
     }) )
     
+    // wait til compiler module has loaded before starting
+    const compile = (await compilerImport).default;
+
     const result = await compile(source, params);
     terminal.out("\nCompiled Successfully")
 

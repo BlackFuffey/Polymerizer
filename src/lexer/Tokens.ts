@@ -1,14 +1,14 @@
-import { Identifier, Semicolon, Whitespace, ScopeStart, ScopeEnd, ExpStart, ExpEnd, } from "./tokens/generic.js";
+import { Identifier, Semicolon, Whitespace, ScopeStart, ScopeEnd, ExpStart, ExpEnd, TypeStart, TypeEnd, Separator, } from "./tokens/generic.js";
 import { Print } from "./tokens/keywords/debug.js";
 import { Exit, If, Else } from "./tokens/keywords/flowctrl.js";
-import { Boolean, Int, UnsignedInt } from "./tokens/keywords/variables.js";
+import { Boolean, Char, Float, Int, UnsignedInt } from "./tokens/keywords/variables.js";
 import { BoolLiteral, IntLiteral, UIntLiteral } from "./tokens/literals.js";
 import { Assign } from "./tokens/operators/variables.js";
 
 export const asArray = [
-    Int, UnsignedInt, Boolean,
+    Int, UnsignedInt, Boolean, Char, Float,
     If, Else, Exit, Print,
-    ScopeStart, ScopeEnd, ExpStart, ExpEnd,
+    ScopeStart, ScopeEnd, ExpStart, ExpEnd, TypeStart, TypeEnd, Separator,
     Assign, 
     IntLiteral, UIntLiteral, BoolLiteral,
     Semicolon,
@@ -17,12 +17,13 @@ export const asArray = [
 ];
 
 export default {
-    Int, UnsignedInt, Boolean,
+    Int, UnsignedInt, Boolean, Char, Float,
     If, Else, Exit, Print,
-    ScopeStart, ScopeEnd, ExpStart, ExpEnd,
+    ScopeStart, ScopeEnd, ExpStart, ExpEnd, TypeStart, TypeEnd, Separator,
     Assign, 
     IntLiteral, UIntLiteral, BoolLiteral,
     Semicolon,
     Identifier, 
     Whitespace
 };
+

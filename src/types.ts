@@ -23,3 +23,18 @@ export type CompileError = {
 export type FileCompileError = CompileError & {
     filename: string;
 }
+
+
+export enum CTarget {
+    TOKENS      = "tokens",
+    CST         = "cst",
+    AST         = "ast",
+    LLVM_IR     = "llvmir",
+    BINARY      = "bin",
+}
+
+export type CompileParams = {
+    jsonIndent: boolean,
+    target: CTarget
+}
+

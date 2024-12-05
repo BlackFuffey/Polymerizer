@@ -6,21 +6,9 @@ import terminal from "./utils/terminal.js";
 import { KevlarCstToAst } from "./ast/Ast.js";
 import { atfile } from "./App.js";
 import { ASTNode } from "./ast/types.js";
+import { CompileParams, CTarget } from "./types.js";
 //import KevlarAstToLLVMIR from "./codegen/llvmir.js";
 //import { clang } from "./codegen/binary.js";
-
-export enum CTarget {
-    TOKENS      = "tokens",
-    CST         = "cst",
-    AST         = "ast",
-    LLVM_IR     = "llvmir",
-    BINARY      = "bin",
-}
-
-export type CompileParams = {
-    jsonIndent: boolean,
-    target: CTarget
-}
 
 export default async function compile(src: string, params: CompileParams): Promise<string | Buffer> {
 

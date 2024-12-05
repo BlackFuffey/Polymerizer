@@ -10,11 +10,12 @@ export interface StatementCtx {
     variableDeclaration?: CstNode[];
     assignment?: CstNode[];
     exit?: CstNode[];
+    print?: CstNode[];
 }
 
 // The context type for the `variableDeclaration` rule
 export interface VariableDeclarationCtx {
-    dataType: IToken[];    // Could be Int or UnsignedInt token
+    dataType: CstNode[];
     varName: IToken[];     // Identifier token
     assignOp?: IToken[];   // Optional Assign token
     initialValue?: CstNode[]; // Optional subrule (expression)
@@ -44,4 +45,9 @@ export interface ExpressionCtx {
     variableRef?: IToken[];  // Could be an Identifier token
 }
 
-
+export interface TypesCtx {
+    basetype: IToken[];
+    size?: IToken[];
+    exponent?: IToken[];
+    fraction?: IToken[];
+}

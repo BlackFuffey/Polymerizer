@@ -21,15 +21,17 @@ export default function includeBaseASTRules(visitor: KevlarVisitor) {
     // @ts-ignore
     visitor.statement = (ctx: StatementCtx): ASTNode<any> => {
 
-        if (ctx.variableDeclaration) {
+        if (ctx.variableDeclaration) 
             return visitor.visit(ctx.variableDeclaration[0]);
-        }
-        if (ctx.assignment) {
+
+        if (ctx.assignment) 
             return visitor.visit(ctx.assignment[0]);
-        }
-        if (ctx.exit) {
+
+        if (ctx.exit) 
             return visitor.visit(ctx.exit[0]);
-        }
+
+        if (ctx.print)
+            return visitor.visit(ctx.print[0]);
 
         return {
             type: ASTNodeTypes.UNIMPLEMENTED,
