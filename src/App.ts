@@ -44,7 +44,7 @@ try {
 
         switch (flagname) {
             case Flags.TARGET:
-                if (!(value in CTarget)) 
+                if (!Object.values(CTarget).includes(value as CTarget)) 
                     terminal.crash(`Bad usage: invalid target "${value}"`)
 
                 params.target = value as CTarget;
