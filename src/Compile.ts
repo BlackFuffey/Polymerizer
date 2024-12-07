@@ -17,6 +17,7 @@ export default async function compile(src: string, params: CompileParams): Promi
 
     const cst = await parseCST(tokens);    
     if (params.target === CTarget.CST) return toString(cst, params.jsonIndent);
+
     const ast = await buildAST(cst!);
     if (params.target === CTarget.AST) return toString(ast, params.jsonIndent);
 
