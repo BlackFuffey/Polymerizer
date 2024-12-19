@@ -1,4 +1,5 @@
 import { ExpressionCtx } from "../../../cst/types.js";
+import CEbuilder from "../../../utils/snippet.js";
 import extractSnippet from "../../../utils/snippet.js";
 import { KevlarVisitor } from "../../Ast.js";
 import Context from "../../Context.js";
@@ -18,15 +19,7 @@ export default function includeExpressionASTRules(visitor: KevlarVisitor) {
         if (ctx.variableRef) {
             const vari = ctx.variableRef[0];
             if (!Context.variables[vari.image]) {
-                Context.errors.push({
-                    header: VariableUndeclared(vari.image),
-                    ...extractSnippet(
-                        vari.startOffset,
-                        vari.endOffset || vari.startOffset
-                    ),
-                    line: vari.startLine || -1,
-                    column: vari.startColumn || -1,
-                })
+                Context.errors.push(CEbuilder(VariableUndeclared(vari.image), vari));
             } else exp = { 
                 type: Context.variables[vari.image],
                 components: { varname: vari.image },

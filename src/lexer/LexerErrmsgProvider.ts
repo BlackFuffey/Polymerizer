@@ -1,5 +1,5 @@
 import { ILexerErrorMessageProvider, IToken } from "chevrotain";
-import extractSnippet from "../utils/snippet.js";
+import { extractSnippet } from "../utils/snippet.js";
 
 const KevlarLexerErrorMessageProvider: ILexerErrorMessageProvider = {
     buildUnexpectedCharactersMessage(fullText: string, startOffset: number, length: number, line?: number, column?: number): string {
