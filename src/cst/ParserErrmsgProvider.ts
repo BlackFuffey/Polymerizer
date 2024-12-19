@@ -4,6 +4,7 @@ import {
     TokenType
 } from "chevrotain";
 import extractSnippet from "../utils/snippet.js";
+import CEbuilder from "../utils/snippet.js";
 
 type MissmatchTokenErrorOptions = {
     expected: TokenType;
@@ -28,18 +29,12 @@ const KevlarParserErrorMessageProvider: IParserErrorMessageProvider = {
     // Custom error message for a mismatched token
     buildMismatchTokenMessage(options: MissmatchTokenErrorOptions) {
         
-        const { startOffset, endOffset, image, startLine, startColumn } = options.actual;
+        const { image, startLine, startColumn } = options.actual;
 
-        const snippet = extractSnippet(
-            startOffset,
-            endOffset || startOffset
-        );
-
-        return JSON.stringify({
-            header: `Expected token "${options.expected.LABEL || options.expected.name}" but found "${image}" at line ${startLine} column ${startColumn}. (${options.ruleName})`,
-            ...snippet,
-            line: startLine
-        });
+        return JSON.stringify(CEbuilder(
+            `Expected token "${options.expected.LABEL || options.expected.name}" but found "${image}" at line ${startLine} column ${startColumn}. (${options.ruleName})`,
+            options.actual
+        ));
     },
 
     // Custom error message for a no-viable-alt (OR alternation) failure
@@ -75,18 +70,11 @@ const KevlarParserErrorMessageProvider: IParserErrorMessageProvider = {
             return combine;
         });
 
-        const snippet = extractSnippet(
-            actual.startOffset,
-            actual.endOffset || actual.startOffset
-        )
-        
-        return JSON.stringify({
-            header: options.expectedPathsPerAlt
+        return JSON.stringify(CEbuilder(options.expectedPathsPerAlt
             .map(alt1 => alt1.map(alt2 => alt2.map(token => token.LABEL)
             .join(", ")).join(" | ")).join(" or "),
-            ...snippet,
-            line: actual.startLine
-        });
+            actual
+        ));
     },
 
     // Custom error message for an early-exit (repetition) failure
@@ -99,18 +87,12 @@ const KevlarParserErrorMessageProvider: IParserErrorMessageProvider = {
 
     buildNotAllInputParsedMessage(options: NotAllInputParsedErrorOptions) {
         
-        const { startOffset, endOffset, image, startLine, startColumn } = options.firstRedundant;
+        const { image, startLine, startColumn } = options.firstRedundant;
 
-        const snippet = extractSnippet(
-            startOffset,
-            endOffset || startOffset
-        );
-
-        return JSON.stringify({
-            header: `Unexpected token "${image}" at line ${startLine} column ${startColumn}. (${options.ruleName})`,
-            ...snippet,
-            line: startLine
-        });
+        return JSON.stringify(CEbuilder(
+            `Unexpected token "${image}" at line ${startLine} column ${startColumn}. (${options.ruleName})`,
+            options.firstRedundant
+        ));
     },
 }
 

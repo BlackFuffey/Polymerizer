@@ -5,6 +5,7 @@ import { ASTExpTypes, ASTNode, ASTNodeTypes, ASTVarProps } from "../types.js";
 import { VariableCastLoss, VariableRedeclare, VariableUndeclared } from "../errors.js";
 import extractSnippet from "../../utils/snippet.js";
 import Context from "../Context.js";
+import CEbuilder from "../../utils/snippet.js";
 
 export default function includeVariableASTRules(visitor: KevlarVisitor) {
     // @ts-ignore
@@ -19,15 +20,7 @@ export default function includeVariableASTRules(visitor: KevlarVisitor) {
         }
 
         if (Context.variables[variable.image]) {
-            Context.errors.push({
-                header: VariableRedeclare(variable.image),
-                ...extractSnippet(
-                    variable.startOffset,
-                    variable.endOffset || variable.startOffset
-                ),
-                line: variable.startLine || -1,
-                column: variable.startColumn || -1,
-            })
+            Context.errors.push(CEbuilder(VariableRedeclare(variable.image), variable))
         } else {
             Context.variables[variable.image] = node.props.type;
         }
@@ -36,15 +29,7 @@ export default function includeVariableASTRules(visitor: KevlarVisitor) {
             node.props.assign = visitor.visit(ctx.initialValue[0]); // Process the initial assignment
 
             if (!Helper.isLosslessCast(node.props.assign!.type, node.props.type)) {
-                Context.errors.push({
-                    header: VariableCastLoss(node.props.assign!.type.display, node.props.type.display),
-                    ...extractSnippet(
-                        variable.startOffset,
-                        variable.endOffset || variable.startOffset
-                    ),
-                    line: variable.startLine || -1,
-                    column: variable.startColumn || -1,
-                })
+                Context.errors.push(CEbuilder(VariableCastLoss(node.props.assign!.type.display, node.props.type.display), variable));
             } 
         }
 
@@ -64,28 +49,12 @@ export default function includeVariableASTRules(visitor: KevlarVisitor) {
         }
 
         if (!node.props.type) {
-            Context.errors.push({
-                header: VariableUndeclared(vari.image),
-                ...extractSnippet(
-                    vari.startOffset,
-                    vari.endOffset || vari.startOffset
-                ),
-                line: vari.startLine || -1,
-                column: vari.startColumn || -1
-            })
+            Context.errors.push(CEbuilder(VariableUndeclared(vari.image), vari))
         } else {
             if (node.props.assign!.type.basetype === ASTExpTypes.BAD_TYPE) return node;
 
             if (!Helper.isLosslessCast(node.props.assign!.type, node.props.type)) {
-                Context.errors.push({
-                    header: VariableCastLoss(node.props.assign!.type.display, node.props.type.display),
-                    ...extractSnippet(
-                        vari.startOffset,
-                        vari.endOffset || vari.startOffset
-                    ),
-                    line: vari.startLine || -1,
-                    column: vari.startColumn || -1,
-                })
+                Context.errors.push(CEbuilder(VariableCastLoss(node.props.assign!.type.display, node.props.type.display), vari));
             }
 
             node.props.type = Context.variables[vari.image];

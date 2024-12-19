@@ -1,9 +1,9 @@
 import { IToken } from "chevrotain";
 import { ASTExpTypes, ASTType } from "./types.js";
-import extractSnippet from "../utils/snippet.js";
 import { InvalidType, NonStdSize, SizeTooSmall } from "./errors.js";
 import { CompileError } from "../types.js";
 import Context from "./Context.js";
+import CEbuilder from "../utils/snippet.js";
 
 const Helper = {
     minBit: (n: number): number => {
@@ -56,41 +56,17 @@ const Helper = {
                         exp.props.size = imgRes[1]==='auto' ? 32 : Number(imgRes[1]);
 
                         if (exp.basetype === ASTExpTypes.INT && exp.props.size < 2) {
-                            Context.errors.push({
-                                header: SizeTooSmall(ASTExpTypes.INT, exp.props.size, 2),
-                                ...extractSnippet(
-                                    token.startOffset,
-                                    token.endOffset || token.startOffset
-                                ),
-                                line: token.startLine || NaN,
-                                column: token.endLine || NaN
-                            })
+                            Context.errors.push(CEbuilder(SizeTooSmall(ASTExpTypes.INT, exp.props.size, 2), token));
                         }
 
                         if (exp.basetype === ASTExpTypes.UINT && exp.props.size < 1) {
-                            Context.errors.push({
-                                header: SizeTooSmall(ASTExpTypes.UINT, exp.props.size, 1),
-                                ...extractSnippet(
-                                    token.startOffset,
-                                    token.endOffset || token.startOffset
-                                ),
-                                line: token.startLine || NaN,
-                                column: token.endLine || NaN
-                            })
+                            Context.errors.push(CEbuilder(SizeTooSmall(ASTExpTypes.UINT, exp.props.size, 1), token));
                         }
 
                     } else exp.props.size = 32;
 
                     if (!Helper.isStdSize(exp.props.size)) {
-                        Context.warns.push({
-                            header: NonStdSize(exp.props.size),
-                            ...extractSnippet(
-                                token.startOffset,
-                                token.endOffset || token.startOffset
-                            ),
-                            line: token.startLine || NaN,
-                            column: token.endLine || NaN
-                        })
+                        Context.warns.push(CEbuilder(NonStdSize(exp.props.size), token));
                     }
 
                     exp.display = `${exp.basetype}<${exp.props.size}>`;
@@ -102,15 +78,8 @@ const Helper = {
             }
 
         } else {
-            Context.errors.push({
-                header: InvalidType(image),
-                ...extractSnippet(
-                    token.startOffset,
-                    token.endOffset || token.startOffset
-                ),
-                line: token.startLine || -1,
-                column: token.endLine || -1
-            }); 
+            Context.errors.push(CEbuilder(InvalidType(image), token));
+
         }
 
 

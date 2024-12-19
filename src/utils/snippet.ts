@@ -1,6 +1,10 @@
+import { IToken } from "chevrotain";
 import { source } from "../App.js";
+import { CompileError } from "../types.js";
 
-export default function extractSnippet(startOffset: number, endOffset: number) {
+export function extractSnippet(startOffset: number, endOffset: number) {
+    
+
     const inputText = source;
 
     // prevent overlapping last character
@@ -38,3 +42,17 @@ export default function extractSnippet(startOffset: number, endOffset: number) {
         after
     };
 }
+
+export default function CEbuilder(header: string, token: IToken): CompileError{
+    return {
+        header,
+        ...extractSnippet(
+            token.startOffset,
+            token.endOffset || token.startOffset
+        ),
+        line: token.startLine || NaN,
+        column: token.endLine || NaN,
+    }
+}
+
+

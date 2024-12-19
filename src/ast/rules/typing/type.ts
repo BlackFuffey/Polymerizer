@@ -1,4 +1,5 @@
 import { TypesCtx } from "../../../cst/types.js";
+import CEbuilder from "../../../utils/snippet.js";
 import extractSnippet from "../../../utils/snippet.js";
 import { KevlarVisitor } from "../../Ast.js";
 import Context from "../../Context.js";
@@ -27,41 +28,17 @@ export default function includeTypeASTRules(visitor: KevlarVisitor) {
                         exp.props.size = size.image==='auto' ? 32 : Number(size.image);
 
                         if (exp.basetype === ASTExpTypes.INT && exp.props.size < 2) {
-                            Context.errors.push({
-                                header: SizeTooSmall(ASTExpTypes.INT, exp.props.size, 2),
-                                ...extractSnippet(
-                                    size.startOffset,
-                                    size.endOffset || size.startOffset
-                                ),
-                                line: size.startLine || NaN,
-                                column: size.endLine || NaN
-                            })
+                            Context.errors.push(CEbuilder(SizeTooSmall(ASTExpTypes.INT, exp.props.size, 2), size));
                         }
 
                         if (exp.basetype === ASTExpTypes.UINT && exp.props.size < 1) {
-                            Context.errors.push({
-                                header: SizeTooSmall(ASTExpTypes.UINT, exp.props.size, 1),
-                                ...extractSnippet(
-                                    size.startOffset,
-                                    size.endOffset || size.startOffset
-                                ),
-                                line: size.startLine || NaN,
-                                column: size.endLine || NaN
-                            })
+                            Context.errors.push(CEbuilder(SizeTooSmall(ASTExpTypes.UINT, exp.props.size, 1), size));
                         }
 
                     } else exp.props.size = 32;
 
                     if (!Helper.isStdSize(exp.props.size)) {
-                        Context.warns.push({
-                            header: NonStdSize(exp.props.size),
-                            ...extractSnippet(
-                                size!.startOffset,
-                                size!.endOffset || size!.startOffset
-                            ),
-                            line: size!.startLine || NaN,
-                            column: size!.endLine || NaN
-                        })
+                        Context.warns.push(CEbuilder(NonStdSize(exp.props.size), size!));
                     }
 
                     exp.display = `${exp.basetype}<${exp.props.size}>`;
@@ -73,15 +50,7 @@ export default function includeTypeASTRules(visitor: KevlarVisitor) {
             }
 
         } else {
-            Context.errors.push({
-                header: InvalidType(type.image),
-                ...extractSnippet(
-                    type.startOffset,
-                    type.endOffset || type.startOffset
-                ),
-                line: type.startLine || -1,
-                column: type.endLine || -1
-            }); 
+            Context.errors.push(CEbuilder(InvalidType(type.image), type));
         }
 
 
