@@ -18,6 +18,14 @@ export const NonStdSize = (size: number) => {
     return `Non-standard size ${size} may impact performance`;
 }
 
+export const NoFloatPreset = (preset: string) => {
+    return `Unsupported float bit allocation preset ${preset}`
+}
+
+export const InvalidSign = (size: number) => {
+    return `Sign bit size must be either 0 or 1, but got ${size}`;
+}
+
 export const SizeTooSmall = (type: string, size: number, min: number) => {
     return `Type "${type}" needs to be at least size ${min} but got size ${size}`
 }
