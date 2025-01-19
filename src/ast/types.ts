@@ -12,7 +12,7 @@ export enum ASTExpTypes {
     INT                         = "int",
     UINT                        = "uint",
     BOOL                        = "bool",
-    FLOAT
+    FLOAT                       = "float",
     BAD_TYPE                    = 0,
 }
 
