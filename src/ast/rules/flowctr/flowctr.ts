@@ -1,6 +1,12 @@
 import { ExitCtx } from "../../../cst/types.js";
 import { KevlarVisitor } from "../../Ast.js";
 import {  ASTNodeTypes } from "../../types.js";
+import { ASTExpression, ASTLitProps } from "../expression/types.js";
+import { ASTVarProps } from "../variable.js";
+
+export type ASTExitProps = {
+    exitCode: ASTExpression<ASTVarProps | ASTLitProps>
+}
 
 export default function includeFlowControlASTRules(visitor: KevlarVisitor) {
     // @ts-ignore

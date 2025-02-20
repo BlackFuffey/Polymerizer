@@ -15,15 +15,30 @@ export const InvalidType = (type: string) => {
 }
 
 export const NonStdSize = (size: number) => {
-    return `Non-standard size ${size} may impact performance`;
+    return `Non full-byte size ${size} may impact performance`;
 }
 
 export const NoFloatPreset = (preset: string) => {
-    return `Unsupported float bit allocation preset ${preset}`
+    return `Unsupported float memory layout preset ${preset}`
 }
 
-export const InvalidSign = (size: number) => {
-    return `Sign bit size must be either 0 or 1, but got ${size}`;
+export const InvalidValue = (name: string, allowed: any[] | string, given: number, invert=false) => {
+    const allowedText = (() => {
+        if (typeof allowed=== 'string') return allowed;
+
+        if (allowed.length === 0) return 'your mom';
+
+        return allowed.reduce((accum, e, i) => {
+            const base = `${accum}"${e}"`;
+
+            if (allowed.length-2 === i) return `${base} or `;
+            if (allowed.length-1 === i) return base;
+
+            return `${base}, `;
+        }, '')
+    })();
+
+    return `${name} must${invert?' not':''} be ${allowedText}, but got "${given}" ${invert?"anyway":"instead"}`;
 }
 
 export const SizeTooSmall = (type: string, size: number, min: number) => {

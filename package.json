@@ -8,7 +8,7 @@
     "main": "build/App.js",
     "scripts": {
         "build-ts": "tsc",
-        "start": "node build/App.js",
+        "start": "node --trace-uncaught --trace-deprecation build/App.js",
         "dev": "nodemon",
         "dev-nowatch": "node --loader ts-node/esm --experimental-specifier-resolution=node ./src/App.ts"
     },

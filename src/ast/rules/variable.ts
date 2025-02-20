@@ -1,11 +1,18 @@
 import { AssignmentCtx, VariableDeclarationCtx } from "../../cst/types.js";
-import Helper from "../Helper.js";
+import Helper from "./typing/typehelper.js";
 import { KevlarVisitor } from "../Ast.js";
-import { ASTExpTypes, ASTNode, ASTNodeTypes, ASTVarProps } from "../types.js";
+import { ASTNode, ASTNodeTypes } from "../types.js";
 import { VariableCastLoss, VariableRedeclare, VariableUndeclared } from "../errors.js";
-import extractSnippet from "../../utils/snippet.js";
 import Context from "../Context.js";
 import CEbuilder from "../../utils/snippet.js";
+import { ASTType } from "./typing/tstypes.js";
+import { ASTExpression, ASTExpTypes } from "./expression/types.js";
+
+export type ASTVarProps = {
+    varname: string;
+    type: ASTType<any>;
+    assign?: ASTExpression<any>;
+}
 
 export default function includeVariableASTRules(visitor: KevlarVisitor) {
     // @ts-ignore
