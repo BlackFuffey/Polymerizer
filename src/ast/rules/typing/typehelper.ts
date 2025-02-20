@@ -1,9 +1,9 @@
 import { IToken } from "chevrotain";
-import { ASTExpTypes, ASTType } from "./types.js";
-import { InvalidType, NonStdSize, SizeTooSmall } from "./errors.js";
-import { CompileError } from "../types.js";
-import Context from "./Context.js";
-import CEbuilder from "../utils/snippet.js";
+import { InvalidType, NonStdSize, SizeTooSmall } from "../../errors.js";
+import Context from "../../Context.js";
+import CEbuilder from "../../../utils/snippet.js";
+import { ASTType } from "./tstypes.js";
+import { ASTExpTypes } from "../expression/types.js";
 
 const Helper = {
     minBit: (n: number): number => {
@@ -15,17 +15,28 @@ const Helper = {
         const match = `${from.basetype}-${to.basetype}`;
 
         switch(match){
-            case `${ASTExpTypes.INT}-${ASTExpTypes.UINT}`:
-                return false;
-
             case `${ASTExpTypes.UINT}-${ASTExpTypes.INT}`:
                 return from.props.size! < to.props.size!;
 
             case `${ASTExpTypes.INT}-${ASTExpTypes.INT}`:
-                case `${ASTExpTypes.UINT}-${ASTExpTypes.UINT}`:
+            case `${ASTExpTypes.UINT}-${ASTExpTypes.UINT}`:
                 return from.props.size! <= to.props.size!;
 
-            case `${ASTExpTypes.BOOL}-${ASTExpTypes.BOOL}`: return true;
+            case `${ASTExpTypes.BOOL}-${ASTExpTypes.BOOL}`: 
+                return true;
+
+            case `${ASTExpTypes.INT}-${ASTExpTypes.FLOAT}`:
+                return (from.props.size! < to.props.frac!) && (to.props.sign === 1);
+
+            case `${ASTExpTypes.UINT}-${ASTExpTypes.FLOAT}`:
+                return from.props.size! <= to.props.frac!;
+
+            case `${ASTExpTypes.FLOAT}-${ASTExpTypes.FLOAT}`:
+                return (
+                    (from.props.sign <= to.props.sign) && 
+                    (from.props.exp <= to.props.exp) &&
+                    (from.props.frac <= to.props.frac)
+                )
 
             default: return false;
         }
@@ -43,8 +54,7 @@ const Helper = {
 
         const isValidType = Object.values(ASTExpTypes).includes(imgRes[0]);
 
-        // @ts-ignore       isValidType ensures imgRes[0] to be a valid ASTExpTypes member
-        exp.basetype = isValidType ? imgRes[0] : ASTExpTypes.BAD_TYPE;
+        exp.basetype = isValidType ? imgRes[0] as ASTExpTypes : ASTExpTypes.BAD_TYPE;
 
         if (isValidType) {
             switch (exp.basetype) {
@@ -79,7 +89,6 @@ const Helper = {
 
         } else {
             Context.errors.push(CEbuilder(InvalidType(image), token));
-
         }
 
 

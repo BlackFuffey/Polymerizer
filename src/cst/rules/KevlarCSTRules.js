@@ -10,6 +10,12 @@ const KevlarCSTRules = [
     includeExpressionRules, includeDebugRules, includeTypingRules
 ]
 
+/*
+    All the CST Rules are javascript files so I can split rules
+    into different sections, but chevotain's rule methods are all 
+    private and typescript is prohibiting me from doing that.
+*/
+
 export default function includeKevlarCSTRules(parser) {
     KevlarCSTRules.forEach(rule => rule(parser));
 }

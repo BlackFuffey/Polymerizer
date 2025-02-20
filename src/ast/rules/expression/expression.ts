@@ -1,13 +1,14 @@
 import { ExpressionCtx } from "../../../cst/types.js";
 import CEbuilder from "../../../utils/snippet.js";
-import extractSnippet from "../../../utils/snippet.js";
 import { KevlarVisitor } from "../../Ast.js";
 import Context from "../../Context.js";
 import { VariableUndeclared } from "../../errors.js";
-import Helper from "../../Helper.js";
-import { ASTExpression, ASTExpTypes } from "../../types.js";
+import Helper from "../typing/typehelper.js";
+import { ASTExpression, ASTExpTypes } from "./types.js";
 
 export default function includeExpressionASTRules(visitor: KevlarVisitor) {
+
+    // TODO: Split this into different files
 
     // @ts-ignore
     visitor.expression = (ctx: ExpressionCtx): ASTExpression<any> => {
@@ -32,13 +33,13 @@ export default function includeExpressionASTRules(visitor: KevlarVisitor) {
         let type: ASTExpTypes|undefined = undefined;
 
         if (ctx.intLiteral) {
-            converted = Number(ctx.intLiteral[0].image.replace(/[+_]/g, ''));
+            converted = Number(ctx.intLiteral[0].image.replace(/_/g, ''));
             size = Helper.minBit(converted) + 1;
             type = ASTExpTypes.INT
         } 
 
         if (ctx.uintLiteral) {
-            converted = Number(ctx.uintLiteral[0].image.replace(/[u_]/g, ''));
+            converted = Number(ctx.uintLiteral[0].image.replace(/[+_]/g, ''));
             size = Helper.minBit(converted);
             type = ASTExpTypes.UINT
         }

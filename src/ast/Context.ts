@@ -1,5 +1,5 @@
 import { CompileError } from "../types.js";
-import { ASTType } from "./types.js";
+import { ASTType } from "./rules/typing/tstypes.js";
 
 type ContextType = {
     variables: {

@@ -7,7 +7,7 @@ export default function includeTypingRules(parser) {
                 parser.CONSUME(Tokens.Int, { LABEL: "basetype" });
                 parser.OPTION1(() => {
                     parser.CONSUME1(Tokens.TypeStart);
-                    parser.SUBRULE1(parser.expression, { LABEL: "size" });
+                    parser.CONSUME1(Tokens.UIntLiteral, { LABEL: "size" });
                     parser.CONSUME1(Tokens.TypeEnd);
                 })
             } },
@@ -15,7 +15,7 @@ export default function includeTypingRules(parser) {
                 parser.CONSUME(Tokens.UnsignedInt, { LABEL: "basetype" });
                 parser.OPTION2(() => {
                     parser.CONSUME2(Tokens.TypeStart);
-                    parser.SUBRULE2(parser.expression, { LABEL: "size" });
+                    parser.CONSUME2(Tokens.UIntLiteral, { LABEL: "size" });
                     parser.CONSUME2(Tokens.TypeEnd);
                 })
             } },
@@ -23,12 +23,12 @@ export default function includeTypingRules(parser) {
                 parser.CONSUME(Tokens.Float, { LABEL: "basetype" })
                 parser.OPTION3(() => {
                     parser.CONSUME3(Tokens.TypeStart);
-                    parser.SUBRULE4(parser.expression, { LABEL: "size" });       
+                    parser.CONSUME3(Tokens.UIntLiteral, { LABEL: "size" });       
                     parser.OPTION4(() => {
                         parser.CONSUME1(Tokens.Separator)
-                        parser.SUBRULE5(parser.expression, { LABEL: "exponent" }) 
+                        parser.CONSUME4(Tokens.UIntLiteral, { LABEL: "exponent" }) 
                         parser.CONSUME2(Tokens.Separator)
-                        parser.SUBRULE6(parser.expression, { LABEL: "fraction" }) 
+                        parser.CONSUME5(Tokens.UIntLiteral, { LABEL: "fraction" }) 
                     })
                     parser.CONSUME3(Tokens.TypeEnd);
                 })

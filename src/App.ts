@@ -3,6 +3,8 @@ import terminal from './utils/terminal.js';
 import { CompileParams, CTarget } from './types.js';
 import path from 'path';
 
+// using static import for now
+import compile from './Compile.js'
 
 enum Flags {
     TARGET              = "--target",
@@ -25,7 +27,8 @@ export let atfile: string = filepath || '';
 
 try {
     // import the compiler module asyncronously while processing command line args
-    const compilerImport = import('./Compile.js');
+    // currently broken
+    //const compilerImport = import('./Compile.js');
 
     if (!(await fileExists(filepath) && await isFile(filepath)))
         terminal.crash(`Bad usage: "${filepath}" is not a file`)
@@ -39,6 +42,7 @@ try {
         target: CTarget.BINARY
     }
 
+    // TODO: use a command line flag processing library instead of this
     await Promise.all( process.argv.slice(2).map(async (flag) => {
         const [flagname, value] = flag.split("=", 2);
 
@@ -74,7 +78,7 @@ try {
     }) )
     
     // wait til compiler module has loaded before starting
-    const compile = (await compilerImport).default;
+    //const compile = (await compilerImport).default;
 
     const result = await compile(source, params);
     terminal.out("\nCompiled Successfully")
