@@ -16,4 +16,4 @@ const Context: ContextType = {
     warns: []
 }
 
-export default Context
+export default Context;

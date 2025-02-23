@@ -3,70 +3,46 @@ import CEbuilder from "../../../utils/snippet.js";
 import { KevlarVisitor } from "../../Ast.js";
 import Context from "../../Context.js";
 import { VariableUndeclared } from "../../errors.js";
-import Helper from "../typing/typehelper.js";
+import { visitBoolLiteralCtx, visitFloatLiteralCtx, visitIntLiteralCtx } from "./literals/literals.js";
 import { ASTExpression, ASTExpTypes } from "./types.js";
 
 export default function includeExpressionASTRules(visitor: KevlarVisitor) {
 
-    // TODO: Split this into different files
-
     // @ts-ignore
     visitor.expression = (ctx: ExpressionCtx): ASTExpression<any> => {
-        let exp: ASTExpression<any> = {
-            type: { basetype: ASTExpTypes.BAD_TYPE, display: '', props: null },
-            components: null,
-        };
 
         if (ctx.variableRef) {
-            const vari = ctx.variableRef[0];
-            if (!Context.variables[vari.image]) {
-                Context.errors.push(CEbuilder(VariableUndeclared(vari.image), vari));
-            } else exp = { 
-                type: Context.variables[vari.image],
-                components: { varname: vari.image },
+            const varname = ctx.variableRef[0];
+            if (!Context.variables[varname.image]) {
+                Context.errors.push(CEbuilder(VariableUndeclared(varname.image), varname));
+            } else return { 
+                type: Context.variables[varname.image],
+                components: { varname: varname.image },
             }
             
         } 
-        
-        let converted: any = undefined;
-        let size: number = -1;
-        let type: ASTExpTypes|undefined = undefined;
-
-        if (ctx.intLiteral) {
-            converted = Number(ctx.intLiteral[0].image.replace(/_/g, ''));
-            size = Helper.minBit(converted) + 1;
-            type = ASTExpTypes.INT
-        } 
-
-        if (ctx.uintLiteral) {
-            converted = Number(ctx.uintLiteral[0].image.replace(/[+_]/g, ''));
-            size = Helper.minBit(converted);
-            type = ASTExpTypes.UINT
-        }
 
         if (ctx.boolLiteral) {
-            exp = {
-                type: {
-                    basetype: ASTExpTypes.BOOL,
-                    props: undefined,
-                    display: `${ASTExpTypes.BOOL}`
-                },
-                components: { literal: ctx.boolLiteral[0].image === 'true' }
-            }
+            return visitBoolLiteralCtx(ctx);
         }
 
         if (ctx.uintLiteral || ctx.intLiteral){
-            exp = {
-                type: {
-                    basetype: type!,
-                    props: { size },
-                    display: `${type}<${size}>`
-                },
-                components: { literal: converted }
-            }
+            return visitIntLiteralCtx(ctx);
         }
 
-        return exp;
+        if (ctx.floatLiteral) {
+            return visitFloatLiteralCtx(ctx);
+        }
+
+        return {
+            type: {
+                basetype: ASTExpTypes.BAD_TYPE,
+                display: 'unimplemented',
+                props: undefined
+            },
+            components: undefined
+        };
+
     }
 
 }

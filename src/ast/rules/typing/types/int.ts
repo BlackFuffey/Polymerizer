@@ -1,9 +1,18 @@
 import { TypesCtx } from "../../../../cst/types.js";
+import CEbuilder from "../../../../utils/snippet.js";
+import Context from "../../../Context.js";
+import { NonStdSize, SizeTooSmall } from "../../../errors.js";
+import { ASTExpTypes } from "../../expression/types.js";
 import { ASTType, IntTypeProps } from "../tstypes.js";
+import Helper from "../typehelper.js";
 
 export default function visitIntTypeCtx(ctx: TypesCtx) {
     let size;
-    let exp: ASTType<IntTypeProps>
+    let exp: ASTType<IntTypeProps> = {
+        basetype: ASTExpTypes.BAD_TYPE,
+        display: 'int/uint',
+        props: { size: 0 }
+    }
 
     if (ctx.size){
         size = ctx.size[0];
@@ -25,5 +34,7 @@ export default function visitIntTypeCtx(ctx: TypesCtx) {
     }
 
     exp.display = `${exp.basetype}<${exp.props.size}>`;
+
+    return exp;
 
 }

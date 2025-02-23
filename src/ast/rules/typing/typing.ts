@@ -7,8 +7,7 @@ import Helper from "./typehelper.js";
 import { ASTExpTypes } from "../expression/types.js";
 import { ASTType } from "./tstypes.js";
 import VisitFloatTypeCtx from "./types/float.js";
-
-// TODO: Split this into differnet files for different types
+import visitIntTypeCtx from "./types/int.js";
 
 export default function includeTypeASTRules(visitor: KevlarVisitor) {
     // @ts-ignore
@@ -24,6 +23,7 @@ export default function includeTypeASTRules(visitor: KevlarVisitor) {
             switch (exp.basetype) {
                 case ASTExpTypes.INT:
                 case ASTExpTypes.UINT:
+                    visitIntTypeCtx(ctx);
                 break;
 
                 case ASTExpTypes.BOOL: exp.display = 'bool'; break;

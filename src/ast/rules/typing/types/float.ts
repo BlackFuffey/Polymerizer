@@ -54,7 +54,7 @@ export default function VisitFloatTypeCtx(ctx: TypesCtx){
             }
         }
 
-    } else node.props = floatPresets['32'];
+    }
 
     const size = getFloatSize(node.props);
 

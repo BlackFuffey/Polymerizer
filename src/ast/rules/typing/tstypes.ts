@@ -7,7 +7,7 @@ export type ASTType<PropT> = {
 }
 
 export type FloatTypeProps = {
-    sign: number,
+    sign: 0 | 1,
     exp: number,
     frac: number,
 }

@@ -2,7 +2,7 @@
     "name": "polymerizer",
     "type": "module",
     "module": "nodenext",
-    "target": "ES15",
+    "target": "ES2023",
     "version": "1.0.0",
     "description": "LLVM-based compiler for Kevlar",
     "main": "build/App.js",
