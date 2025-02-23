@@ -12,9 +12,11 @@ const Helper = {
     },
 
     isLosslessCast: (from: ASTType<any>, to: ASTType<any>): boolean => {
-        const match = `${from.basetype}-${to.basetype}`;
 
-        switch(match){
+        // not using if statements because they look messy and horrible.
+        // refactor later if this becomes a pain to maintain
+        // (what can possibly happen)
+        switch(`${from.basetype}-${to.basetype}`){
             case `${ASTExpTypes.UINT}-${ASTExpTypes.INT}`:
                 return from.props.size! < to.props.size!;
 

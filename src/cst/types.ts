@@ -39,9 +39,10 @@ export interface ExitCtx {
 
 // The context type for the `expression` rule
 export interface ExpressionCtx {
-    intLiteral?: IToken[]; // Could be an IntLiteral token
-    uintLiteral?: IToken[]; // Could be an UIntLiteral token
+    intLiteral?: IToken[]; // Could be an int literal
+    uintLiteral?: IToken[]; // Could be an uint literal
     boolLiteral?: IToken[]; // Could be a boolean literal
+    floatLiteral?: IToken[]; // Could be a float literal
     variableRef?: IToken[];  // Could be an Identifier token
 }
 

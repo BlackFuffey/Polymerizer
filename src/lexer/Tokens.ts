@@ -2,7 +2,7 @@ import { Identifier, Semicolon, Whitespace, ScopeStart, ScopeEnd, ExpStart, ExpE
 import { Print } from "./tokens/keywords/debug.js";
 import { Exit, If, Else } from "./tokens/keywords/flowctrl.js";
 import { Boolean, Char, Float, Int, UnsignedInt } from "./tokens/keywords/variables.js";
-import { BoolLiteral, IntLiteral, UIntLiteral } from "./tokens/literals.js";
+import { BoolLiteral, FloatLiteral, IntLiteral, UIntLiteral } from "./tokens/literals.js";
 import { Assign } from "./tokens/operators/variables.js";
 
 export const asArray = [
@@ -10,7 +10,7 @@ export const asArray = [
     If, Else, Exit, Print,
     ScopeStart, ScopeEnd, ExpStart, ExpEnd, TypeStart, TypeEnd, Separator,
     Assign, 
-    IntLiteral, UIntLiteral, BoolLiteral,
+    IntLiteral, UIntLiteral, BoolLiteral, FloatLiteral,
     Semicolon,
     Identifier, 
     Whitespace
@@ -21,7 +21,7 @@ export default {
     If, Else, Exit, Print,
     ScopeStart, ScopeEnd, ExpStart, ExpEnd, TypeStart, TypeEnd, Separator,
     Assign, 
-    IntLiteral, UIntLiteral, BoolLiteral,
+    IntLiteral, UIntLiteral, BoolLiteral, FloatLiteral,
     Semicolon,
     Identifier, 
     Whitespace

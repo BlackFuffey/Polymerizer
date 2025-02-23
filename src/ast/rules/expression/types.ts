@@ -1,12 +1,24 @@
 import { ASTType } from "../typing/tstypes.js";
 
-export type ASTExpression<CompT> = {
-    type: ASTType<any>;
+export type ASTExpression<CompT, TypeT> = {
+    type: ASTType<TypeT>;
     components: CompT;
 }
 
-export type ASTLitProps = {
-    literal: number | boolean | string;
+export type IntLitComps = {
+    literal: number
+}
+
+export type BoolLitComps = {
+    literal: boolean
+}
+
+export type FloatLitComps = {
+    literal: {
+        sign: 0 | 1;
+        frac: number;
+        exp: number;
+    }
 }
 
 export enum ASTExpTypes {
