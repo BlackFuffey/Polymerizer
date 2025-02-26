@@ -14,7 +14,7 @@ export default function includeKevlarASTRules(visitor: KevlarVisitor) {
     /*
         If you look into any of the AST Rule files, you will notice
         there is a @ts-ignore on every line that assigns something to visitor.
-        This is also to get around typescript's restriction of class
+        This is to get around typescript's restriction of class
         method can only be defined inside a class.
     */
 
