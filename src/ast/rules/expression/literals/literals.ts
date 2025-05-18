@@ -18,13 +18,13 @@ export function visitIntLiteralCtx(ctx: ExpressionCtx): ASTExpression<IntLitComp
         }
     }
 
-    if (ctx.intLiteral) {
+    if (ctx.intLiteral?.[0]) {
         exp.components.literal = Number(ctx.intLiteral[0].image.replace(/_/g, ''));
         exp.type.props.size = Helper.minBit(exp.components.literal) + 1;
         exp.type.basetype = ASTExpTypes.INT
     } 
 
-    if (ctx.uintLiteral) {
+    if (ctx.uintLiteral?.[0]) {
         exp.components.literal = Number(ctx.uintLiteral[0].image.replace(/[+_]/g, ''));
         exp.type.props.size = Helper.minBit(exp.components.literal);
         exp.type.basetype = ASTExpTypes.UINT
@@ -36,6 +36,11 @@ export function visitIntLiteralCtx(ctx: ExpressionCtx): ASTExpression<IntLitComp
 }
 
 export function visitBoolLiteralCtx(ctx: ExpressionCtx): ASTExpression<BoolLitComps,undefined> {
+    
+    if (!ctx.boolLiteral?.[0]) {
+        throw new Error('boolLiteral is undefined whe visiting ctx');
+    }
+
     return {
         type: {
             basetype: ASTExpTypes.BOOL,
@@ -43,7 +48,7 @@ export function visitBoolLiteralCtx(ctx: ExpressionCtx): ASTExpression<BoolLitCo
             props: undefined,
         },
         components: {
-            literal: ctx.boolLiteral![0].image === 'true'
+            literal: ctx.boolLiteral[0].image === 'true'
         }
     }
 }

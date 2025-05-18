@@ -1,9 +1,9 @@
 import { IToken } from "chevrotain";
-import { InvalidType, NonStdSize, SizeTooSmall } from "../../errors.js";
-import Context from "../../Context.js";
-import CEbuilder from "../../../utils/snippet.js";
-import { ASTType } from "./tstypes.js";
-import { ASTExpTypes } from "../expression/types.js";
+import { InvalidType, NonStdSize, SizeTooSmall } from "@/ast/errors";
+import Context from "@/ast/context";
+import CEbuilder from "@/utils/snippet";
+import { ASTType } from "./tstypes";
+import { ASTExpTypes } from "../expression/types";
 
 const Helper = {
     minBit: (n: number): number => {
@@ -54,7 +54,7 @@ const Helper = {
         let imgRes = image.split("<")
         let exp: ASTType<any> = { basetype: ASTExpTypes.BAD_TYPE, display: '', props: {} };
 
-        const isValidType = Object.values(ASTExpTypes).includes(imgRes[0]);
+        const isValidType = imgRes[0] ? Object.values(ASTExpTypes).includes(imgRes[0]) : false;
 
         exp.basetype = isValidType ? imgRes[0] as ASTExpTypes : ASTExpTypes.BAD_TYPE;
 
@@ -64,7 +64,7 @@ const Helper = {
                 case ASTExpTypes.UINT:
                     if (imgRes.length > 1){
 
-                        imgRes[1] = imgRes[1].substring(0, imgRes[1].length-1);
+                        imgRes[1] = imgRes[1]!.substring(0, imgRes[1]!.length-1);
                         exp.props.size = imgRes[1]==='auto' ? 32 : Number(imgRes[1]);
 
                         if (exp.basetype === ASTExpTypes.INT && exp.props.size < 2) {
@@ -78,7 +78,7 @@ const Helper = {
                     } else exp.props.size = 32;
 
                     if (!Helper.isStdSize(exp.props.size)) {
-                        Context.warns.push(CEbuilder(NonStdSize(exp.props.size), token));
+                        Context.warnings.push(CEbuilder(NonStdSize(exp.props.size), token));
                     }
 
                     exp.display = `${exp.basetype}<${exp.props.size}>`;

@@ -1,4 +1,4 @@
-import Tokens from '../../../lexer/Tokens.js'
+import Tokens from '../../../lexer/tokens.js'
 
 export default function includeExpressionRules(parser) {
     parser.RULE("expression", () => {

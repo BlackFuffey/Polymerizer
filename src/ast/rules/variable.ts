@@ -1,24 +1,33 @@
-import { AssignmentCtx, VariableDeclarationCtx } from "../../cst/types.js";
-import Helper from "./typing/typehelper.js";
-import { KevlarVisitor } from "../Ast.js";
-import { ASTNode, ASTNodeTypes } from "../types.js";
-import { VariableCastLoss, VariableRedeclare, VariableUndeclared } from "../errors.js";
-import Context from "../Context.js";
-import CEbuilder from "../../utils/snippet.js";
-import { ASTType } from "./typing/tstypes.js";
-import { ASTExpression, ASTExpTypes } from "./expression/types.js";
+import { AssignmentCtx, VariableDeclarationCtx } from "../../cst/types";
+import Helper from "./typing/typehelper";
+import { KevlarVisitor } from "../ast";
+import { ASTNode, ASTNodeTypes } from "../tstypes";
+import { VariableCastLoss, VariableRedeclare, VariableUndeclared } from "../errors";
+import Context from "../context";
+import CEbuilder from "../../utils/snippet";
+import { ASTType } from "./typing/tstypes";
+import { ASTExpression, ASTExpTypes } from "./expression/types";
 
-export type ASTVarProps = {
+type ASTVarProps = {
     varname: string;
     type: ASTType<any>;
     assign?: ASTExpression<any>;
 }
 
+export type ASTVarDeclareNode = {
+    type: ASTNodeTypes.VARIABLE_DECLARE
+    props: ASTVarProps
+} 
+
+export type ASTVarAssignNode = {
+    type: ASTNodeTypes.VARIABLE_ASSIGN
+    props: ASTVarProps
+}
+
 export default function includeVariableASTRules(visitor: KevlarVisitor) {
-    // @ts-ignore
-    visitor.variableDeclaration = (ctx: VariableDeclarationCtx): ASTNode<ASTVarProps> => {
+    (visitor as any).variableDeclaration = (ctx: VariableDeclarationCtx): ASTVarDeclareNode => {
         const variable = ctx.varName[0];
-        let node: ASTNode<ASTVarProps> = {
+        let node: ASTVarDeclareNode = {
             type: ASTNodeTypes.VARIABLE_DECLARE,
             props: {
                 varname: variable.image,
@@ -44,9 +53,10 @@ export default function includeVariableASTRules(visitor: KevlarVisitor) {
     }
 
     // @ts-ignore
-    visitor.assignment = (ctx: AssignmentCtx): ASTNode<ASTVarProps> => {
-        const vari = ctx.varName[0];
-        let node: ASTNode<ASTVarProps> = {
+    visitor.assignment = 
+        (ctx: AssignmentCtx): ASTVarAssignNode => {
+        const vari = ctx.varName[0]!;
+        let node: ASTVarAssignNode = {
             type: ASTNodeTypes.VARIABLE_ASSIGN,
             props: {
                 type: Context.variables[vari.image],

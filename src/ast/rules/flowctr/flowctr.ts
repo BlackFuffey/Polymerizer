@@ -1,34 +1,39 @@
-import { ExitCtx } from "../../../cst/types.js";
-import { KevlarVisitor } from "../../Ast.js";
-import {  ASTNodeTypes } from "../../types.js";
-import { ASTExpression, ASTLitProps } from "../expression/types.js";
-import { ASTVarProps } from "../variable.js";
+import { ExitCtx } from "@/cst/types";
+import { KevlarVisitor } from "@/ast/ast";
+import { ASTNodeTypes, ASTUnimplNode } from "@/ast/tstypes";
+import { ASTExpression, IntLitComps } from "../expression/types";
 
-export type ASTExitProps = {
-    exitCode: ASTExpression<ASTVarProps | ASTLitProps>
-}
+export type ASTIfElseNode = {
+    type: ASTNodeTypes.IF_ELSE
+    props: unknown
+    children: unknown
+} 
+
+export type ASTExitNode = {
+    type: ASTNodeTypes.EXIT
+    props: {
+        exitCode: ASTExpression<ASTVarProps | IntLitComps>
+    }
+} 
 
 export default function includeFlowControlASTRules(visitor: KevlarVisitor) {
-    // @ts-ignore
-    visitor.exit = (ctx: ExitCtx): ASTNode<ASTExpProps> => {
+    (visitor as any).exit = (ctx: ExitCtx): ASTExitNode => {
         return {
             type: ASTNodeTypes.EXIT,
             props: {
-                exitCode: visitor.visit(ctx.exitCode[0])
+                exitCode: visitor.visit(ctx.exitCode![0]!)
             }
         }
     }
 
-    // @ts-ignore
-    visitor.ifElseBlock = (ctx: any): ASTNode<any> => {
+    (visitor as any).ifElseBlock = (ctx: any): ASTUnimplNode => {
         return {
             type: ASTNodeTypes.UNIMPLEMENTED,
             props: { ctx }
         }
     }
 
-    // @ts-ignore
-    visitor.scopeBlock = (ctx: any): ASTNode<any> => {
+    (visitor as any).scopeBlock = (ctx: any): ASTUnimplNode => {
         return {
             type: ASTNodeTypes.UNIMPLEMENTED,
             props: { ctx }

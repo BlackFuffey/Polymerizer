@@ -1,32 +1,35 @@
 {
     "name": "polymerizer",
-    "type": "module",
-    "module": "nodenext",
-    "target": "ES2023",
-    "version": "1.0.0",
     "description": "LLVM-based compiler for Kevlar",
-    "main": "build/App.js",
-    "scripts": {
-        "build-ts": "tsc",
-        "start": "node --trace-uncaught --trace-deprecation build/App.js",
-        "dev": "nodemon",
-        "dev-nowatch": "node --loader ts-node/esm --experimental-specifier-resolution=node ./src/App.ts"
-    },
-    "bin": {
-        "polyc": "./bin/polyc"
-    },
-    "author": "",
+    "author": "BlackFuffey",
     "license": "GPL",
+    "private": true,
+    "main": "build/app.js",
+    "type": "module",
+    "scripts": {
+        "dev": "pnpm tsx watch src/app.ts",
+        "debug": "pnpm tsx watch --inspect src/app.ts",
+        "build-ts": "pnpm run check && node scripts/build.js",
+        "check": "pnpm run typecheck && pnpm run lint && pnpm run format-check && echo -e \"\\n\\e[1;92m✔ No issue found!\\e[0m\"",
+        "typecheck": "tsc --noEmit",
+        "lint": "eslint src",
+        "format-check": "pnpm exec prettier src --check --config prettier.config.js",
+        "format": "pnpm exec prettier src --write --config prettier.config.js"
+    },
+    "packageManager": "pnpm@10.9.0",
     "devDependencies": {
-        "@types/node": "^22.7.5",
-        "typescript": "^5.6.3",
-        "ts-node": "^10.9.2"
+        "@chevrotain/types": "^11.0.3",
+        "@types/node": "^22.15.18",
+        "esbuild": "^0.25.4",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.8.3"
     },
     "dependencies": {
-        "chalk": "^5.3.0",
+        "chalk": "^5.4.1",
         "chevrotain": "^11.0.3",
         "cli-spinners": "^3.2.0",
         "escodegen": "^2.1.0",
-        "strip-ansi": "^7.1.0"
+        "strip-ansi": "^7.1.0",
+        "tslib": "^2.8.1"
     }
 }

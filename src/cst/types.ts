@@ -52,3 +52,8 @@ export interface TypesCtx {
     exponent?: IToken[];
     fraction?: IToken[];
 }
+
+export interface PrintCtx {
+    printKeyword: IToken[];
+    content: CstNode[];
+}

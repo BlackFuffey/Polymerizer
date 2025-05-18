@@ -1,17 +1,17 @@
-import { ExpressionCtx } from "../../../cst/types.js";
-import CEbuilder from "../../../utils/snippet.js";
-import { KevlarVisitor } from "../../Ast.js";
-import Context from "../../Context.js";
-import { VariableUndeclared } from "../../errors.js";
-import { visitBoolLiteralCtx, visitFloatLiteralCtx, visitIntLiteralCtx } from "./literals/literals.js";
-import { ASTExpression, ASTExpTypes } from "./types.js";
+import { ExpressionCtx } from "@/cst/types";
+import CEbuilder from "@/utils/snippet";
+import { KevlarVisitor } from "@/ast/ast";
+import Context from "@/ast/context";
+import { VariableUndeclared } from "@/ast/errors";
+import { visitBoolLiteralCtx, visitFloatLiteralCtx, visitIntLiteralCtx } from "./literals/literals";
+import { ASTExpression, ASTExpTypes } from "./types";
 
 export default function includeExpressionASTRules(visitor: KevlarVisitor) {
 
     // @ts-ignore
     visitor.expression = (ctx: ExpressionCtx): ASTExpression<any> => {
 
-        if (ctx.variableRef) {
+        if (ctx.variableRef?.[0]) {
             const varname = ctx.variableRef[0];
             if (!Context.variables[varname.image]) {
                 Context.errors.push(CEbuilder(VariableUndeclared(varname.image), varname));

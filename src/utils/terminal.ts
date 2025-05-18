@@ -2,7 +2,7 @@ import chalk from "chalk";
 import cliSpinners from "cli-spinners";
 import readline from "readline";
 import stripAnsi from "strip-ansi";
-import { SpinnerController, Spinner, FileCompileError } from "../types.js"
+import { SpinnerController, Spinner, FileCompileError } from "../tstypes.js"
 
 type SpinnerSettings = {
     spin: Spinner;
