@@ -1,10 +1,10 @@
-import { TypesCtx } from "../../../../cst/types.js";
-import CEbuilder from "../../../../utils/snippet.js";
-import Context from "../../../Context.js";
-import { NonStdSize, SizeTooSmall } from "../../../errors.js";
-import { ASTExpTypes } from "../../expression/types.js";
-import { ASTType, IntTypeProps } from "../tstypes.js";
-import Helper from "../typehelper.js";
+import { TypesCtx } from "@/cst/types";
+import CEbuilder from "@/utils/snippet";
+import Context from "@/ast/context";
+import { NonStdSize, SizeTooSmall } from "@/ast/errors";
+import { ASTExpTypes } from "@/ast/rules/expression/types";
+import { ASTType, IntTypeProps } from "../tstypes";
+import Helper from "../typehelper";
 
 export default function visitIntTypeCtx(ctx: TypesCtx) {
     let size;
@@ -14,7 +14,7 @@ export default function visitIntTypeCtx(ctx: TypesCtx) {
         props: { size: 0 }
     }
 
-    if (ctx.size){
+    if (ctx.size?.[0]){
         size = ctx.size[0];
 
         exp.props.size = size.image==='auto' ? 32 : Number(size.image);
@@ -30,7 +30,7 @@ export default function visitIntTypeCtx(ctx: TypesCtx) {
     } else exp.props.size = 32;
 
     if (!Helper.isStdSize(exp.props.size)) {
-        Context.warns.push(CEbuilder(NonStdSize(exp.props.size), size!));
+        Context.warnings.push(CEbuilder(NonStdSize(exp.props.size), size!));
     }
 
     exp.display = `${exp.basetype}<${exp.props.size}>`;

@@ -1,5 +1,5 @@
 import includeDebugRules from "../../cst/rules/debug.js";
-import { KevlarVisitor } from "../Ast.js";
+import { KevlarVisitor } from "../ast.js";
 import includeBaseASTRules from "./base.js";
 import includeDebugASTRules from "./debug.js";
 import includeExpressionASTRules from "./expression/expression.js";

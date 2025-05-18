@@ -1,10 +1,10 @@
 import fs from 'fs/promises';
 import terminal from './utils/terminal.js';
-import { CompileParams, CTarget } from './types.js';
+import { CompileParams, CTarget } from './tstypes.js';
 import path from 'path';
 
 // using static import for now
-import compile from './Compile.js'
+import compile from './compile.js'
 
 enum Flags {
     TARGET              = "--target",
@@ -13,14 +13,15 @@ enum Flags {
     VERBOSE_JSON        = "--vbjson",
 }
 
-process.argv.shift();
+// delete node path and script path
+process.argv.splice(0, 2);
 
-if (process.argv.length <= 1) {
+if (process.argv.length === 0) {
     printHelp();
-    process.exit(0);
+    process.exit(1);
 }
 
-const filepath = process.argv[1];
+const filepath = process.argv[0]!;
 
 export let source: string = '';
 export let atfile: string = filepath || '';
@@ -43,7 +44,7 @@ try {
     }
 
     // TODO: use a command line flag processing library instead of this
-    await Promise.all( process.argv.slice(2).map(async (flag) => {
+    await Promise.all( process.argv.slice(1).map(async (flag) => {
         const [flagname, value] = flag.split("=", 2);
 
         switch (flagname) {
@@ -61,7 +62,7 @@ try {
                         terminal.crash(`Bad usage: no such directory "${path.dirname(absPath)}"`);
                 }
                 
-                output = value;
+                output = value!;
                 return;
 
             case Flags.SILENT:

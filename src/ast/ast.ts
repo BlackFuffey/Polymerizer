@@ -1,7 +1,7 @@
-import { KevlarVisitorBase } from "../cst/Cst.js";
+import { KevlarVisitorBase } from "../cst/cst";
 import { CstNode } from "chevrotain";
-import includeKevlarASTRules from "./rules/KevlarASTRules.js";
-import Context from "./Context.js";
+import includeKevlarASTRules from "./rules/KevlarASTRules";
+import Context from "./context";
 
 export class KevlarVisitor extends KevlarVisitorBase {
 
@@ -18,7 +18,7 @@ const visitor = new KevlarVisitor();
 export const KevlarCstToAst = {
     
     build(cst: CstNode[] | CstNode){
-        return { errors: Context.errors, warns: Context.warns, ast: visitor.visit(cst) };
+        return { errors: Context.errors, warnings: Context.warnings, ast: visitor.visit(cst) };
     }
 
 } 

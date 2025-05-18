@@ -1,6 +1,6 @@
 import { IToken } from "chevrotain";
-import { source } from "../App.js";
-import { CompileError } from "../types.js";
+import { source } from "../app.js";
+import { CompileError } from "../tstypes.js";
 
 export function extractSnippet(startOffset: number, endOffset: number) {
     

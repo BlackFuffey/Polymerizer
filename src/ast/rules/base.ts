@@ -1,41 +1,39 @@
-import { KevlarVisitor } from "../Ast.js";
-import { ProgramCtx, StatementCtx } from "../../cst/types.js";
-import { ASTNode, ASTNodeTypes } from "../types.js";
+import { KevlarVisitor } from "../ast";
+import { ProgramCtx, StatementCtx } from "../../cst/types";
+import { ASTNode, ASTNodeTypes, ASTProgramNode, ASTStatementNode, ASTUnimplNode } from "../tstypes";
 
 export default function includeBaseASTRules(visitor: KevlarVisitor) {
-    // @ts-ignore
-    visitor.program = (ctx: ProgramCtx): ASTNode<undefined> => {
-        let ast: ASTNode<undefined> = {
+    (visitor as any).program = (ctx: ProgramCtx): ASTProgramNode => {
+        let node: ASTProgramNode = {
             type: ASTNodeTypes.PROGRAM,
-            props: undefined,
             children: []
         };
 
         ctx.statement.forEach((statementNode) => {
-            ast.children!.push(visitor.visit(statementNode));
+            node.children!.push(visitor.visit(statementNode));
         });
 
-        return ast;
+        return node;
     }
 
     // @ts-ignore
-    visitor.statement = (ctx: StatementCtx): ASTNode<any> => {
+    visitor.statement = (ctx: StatementCtx): ASTStatementNode | ASTUnimplNode => {
 
-        if (ctx.variableDeclaration) 
+        if (ctx.variableDeclaration?.[0]) 
             return visitor.visit(ctx.variableDeclaration[0]);
 
-        if (ctx.assignment) 
+        if (ctx.assignment?.[0]) 
             return visitor.visit(ctx.assignment[0]);
 
-        if (ctx.exit) 
+        if (ctx.exit?.[0]) 
             return visitor.visit(ctx.exit[0]);
 
-        if (ctx.print)
+        if (ctx.print?.[0])
             return visitor.visit(ctx.print[0]);
 
         return {
             type: ASTNodeTypes.UNIMPLEMENTED,
-            props: undefined
+            props: JSON.stringify(ctx)
         }
     }
 

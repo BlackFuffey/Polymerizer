@@ -1,11 +1,11 @@
 import { CstNode, IToken } from "chevrotain";
-import { KevlarCSTParser } from "./cst/Cst.js";
-import KevlarLexer from "./lexer/Lexer.js"
+import { KevlarCSTParser } from "./cst/cst.ts";
+import KevlarLexer from "./lexer/lexer.js"
 import terminal from "./utils/terminal.js";
-import { KevlarCstToAst } from "./ast/Ast.js";
-import { atfile } from "./App.js";
-import { ASTNode } from "./ast/types.js";
-import { CompileParams, CTarget } from "./types.js";
+import { KevlarCstToAst } from "./ast/ast.js";
+import { atfile } from "./app.js";
+import { ASTNode } from "./ast/tstypes.ts";
+import { CompileParams, CTarget } from "./tstypes.js";
 
 export default async function compile(src: string, params: CompileParams): Promise<string | Buffer> {
 

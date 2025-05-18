@@ -1,18 +1,17 @@
-import { TypesCtx } from "../../../cst/types.js";
-import CEbuilder from "../../../utils/snippet.js";
-import { KevlarVisitor } from "../../Ast.js";
-import Context from "../../Context.js";
-import { InvalidType, NonStdSize, SizeTooSmall } from "../../errors.js";
-import Helper from "./typehelper.js";
-import { ASTExpTypes } from "../expression/types.js";
-import { ASTType } from "./tstypes.js";
-import VisitFloatTypeCtx from "./types/float.js";
-import visitIntTypeCtx from "./types/int.js";
+import { TypesCtx } from "@/cst/types";
+import CEbuilder from "@/utils/snippet";
+import { KevlarVisitor } from "@/ast/ast";
+import Context from "@/ast/context";
+import { InvalidType, NonStdSize, SizeTooSmall } from "@/ast/errors";
+import Helper from "./typehelper";
+import { ASTExpTypes } from "../expression/types";
+import { ASTType } from "./tstypes";
+import VisitFloatTypeCtx from "./types/float";
+import visitIntTypeCtx from "./types/int";
 
 export default function includeTypeASTRules(visitor: KevlarVisitor) {
-    // @ts-ignore
-    visitor.types = (ctx: TypesCtx): ASTType<any> => {
-        let type = ctx.basetype[0];
+    (visitor as any).types = (ctx: TypesCtx): ASTType<any> => {
+        let type = ctx.basetype[0]!;
         let exp: ASTType<undefined> = { basetype: ASTExpTypes.BAD_TYPE, display: '', props: undefined };
 
         const isValidType = Object.values(ASTExpTypes).includes(type.image);

@@ -16,7 +16,7 @@ export const asArray = [
     Whitespace
 ];
 
-export default {
+const Tokens = {
     Int, UnsignedInt, Boolean, Char, Float,
     If, Else, Exit, Print,
     ScopeStart, ScopeEnd, ExpStart, ExpEnd, TypeStart, TypeEnd, Separator,
@@ -27,3 +27,5 @@ export default {
     Whitespace
 };
 
+
+export default Tokens;

@@ -1,5 +1,5 @@
-import { CompileError } from "../types.js";
-import { ASTType } from "./rules/typing/tstypes.js";
+import { CompileError } from "@/tstypes";
+import { ASTType } from "./rules/typing/tstypes";
 
 type ContextType = {
     variables: {
@@ -7,13 +7,13 @@ type ContextType = {
     },
 
     errors: CompileError[];
-    warns: CompileError[];
+    warnings: CompileError[];
 }
 
 const Context: ContextType = {
     variables: {},
     errors: [],
-    warns: []
+    warnings: []
 }
 
 export default Context;

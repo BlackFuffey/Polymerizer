@@ -1,5 +1,6 @@
-import { ILexerErrorMessageProvider, IToken } from "chevrotain";
-import { extractSnippet } from "../utils/snippet.js";
+import { IToken, ILexerErrorMessageProvider, Lexer } from "chevrotain";
+import { asArray as Tokens } from "./tokens.js";
+import { extractSnippet } from "utils/snippet.js";
 
 const KevlarLexerErrorMessageProvider: ILexerErrorMessageProvider = {
     buildUnexpectedCharactersMessage(fullText: string, startOffset: number, length: number, line?: number, column?: number): string {
@@ -17,4 +18,10 @@ const KevlarLexerErrorMessageProvider: ILexerErrorMessageProvider = {
     }
 }
 
-export default KevlarLexerErrorMessageProvider;
+const KevlarLexer = new Lexer(
+    Tokens,
+    { errorMessageProvider: KevlarLexerErrorMessageProvider}
+);
+
+export default KevlarLexer;
+
