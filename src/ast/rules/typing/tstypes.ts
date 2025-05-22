@@ -6,6 +6,10 @@ export type ASTType<PropT> = {
     display: string;
 }
 
+export type ASTIntType = {
+    basetype: ASTExpTypes.
+}
+
 export type FloatTypeProps = {
     sign: 0 | 1,
     exp: number,
