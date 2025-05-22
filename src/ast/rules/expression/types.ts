@@ -5,7 +5,7 @@ export type ASTExpression<CompT, TypeT> = {
     components: CompT;
 }
 
-export type IntLitComps = {
+export type IntLiteral = {
     literal: number
 }
 
