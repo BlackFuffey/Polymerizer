@@ -2,17 +2,26 @@
 An LLVM based compiler for [Kevlar](https://github.com/BlackFuffey/Kevlar) \
 \
 This project is far from complete, and since I don't have any experience of writing compilers, it will probably remain so for some time. \
-Feel free to check back once in a while!
+Feel free to check back once in a while! 
 
 # Roadmap
+TODO List:
+- **Refactor AST to use class-based nodes (In progress)**
+- **Implement proper expression support (In progress)**
+- Fix lazy loading
+- Switch to esbuild
+- Switch to pnpm
+- Use prettier
+- Use a library to process cmd flags
+
 Here's an overview of where the compiler is at currently:
 
 |  Feature | Lexer | CST | AST | Codegen |
 |:--------:|:-----:|:---:|:---:|:-------:|
-| int/uint |  yes  | yes | yes |    no   |
+|    int   |  yes  | yes | yes |    no   |
 |  boolean |  yes  | yes | yes |    no   |
 |   float  |  yes  | yes | yes |    no   |
-|  if/else |  yes  | yes |  no |    no   |
+|  if-else |  yes  | yes |  no |    no   |
 
 No codegen functionalities has been implemented yet due to my lack of experience with C/C++. 
 
