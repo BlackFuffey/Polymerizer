@@ -1,6 +1,6 @@
 import { IToken } from "chevrotain";
-import { InvalidType, NonStdSize, SizeTooSmall } from "@/ast/errors";
-import Context from "@/ast/context";
+import { InvalidType, NonStdSize, SizeTooSmall } from "@/ast/utils/errors";
+import Context from "@/ast/utils/context";
 import CEbuilder from "@/utils/snippet";
 import { ASTType } from "./tstypes";
 import { ASTExpTypes } from "../expression/types";

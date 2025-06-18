@@ -1,8 +1,8 @@
 import { TypesCtx } from "@/cst/types";
 import CEbuilder from "@/utils/snippet";
 import { KevlarVisitor } from "@/ast/ast";
-import Context from "@/ast/context";
-import { InvalidType, NonStdSize, SizeTooSmall } from "@/ast/errors";
+import Context from "@/ast/utils/context";
+import { InvalidType, NonStdSize, SizeTooSmall } from "@/ast/utils/errors";
 import Helper from "./typehelper";
 import { ASTExpTypes } from "../expression/types";
 import { ASTType } from "./tstypes";

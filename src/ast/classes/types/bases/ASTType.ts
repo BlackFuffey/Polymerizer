@@ -1,6 +1,6 @@
-import { ASTBaseTypes } from "./tstypes";
+import { ASTBaseTypes, ASTStaticType } from "../tstypes";
 
-export default abstract class ASTType<PropT> {
+export default abstract class ASTType<PropT extends object> {
     protected readonly abstract _basetype: ASTBaseTypes;
 
     protected readonly _props: PropT;
@@ -13,7 +13,7 @@ export default abstract class ASTType<PropT> {
 
     public abstract get isValid(): boolean;
 
-    public abstract isCastableTo(type: ASTType<unknown>): boolean;
+    public abstract isCastableTo(type: ASTType<object>): boolean;
 
     public get basetype(): ASTBaseTypes {
         return this._basetype;
@@ -22,4 +22,6 @@ export default abstract class ASTType<PropT> {
     public get props(): PropT {
         return this._props;
     }
+
+    public abstract toStaticObject(): ASTStaticType;
 }

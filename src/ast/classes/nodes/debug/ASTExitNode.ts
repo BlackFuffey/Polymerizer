@@ -1,17 +1,21 @@
-import ASTNode from "../ASTNode";
-import { ASTNodeTypes } from "../tstypes";
+import ASTNode from "../bases/ASTNode";
+import { ASTNodeTypes, ASTStaticNode } from "../tstypes";
 
 type ASTExitNodeProps = {
     exitCode: unknown;
 }
 
 export default class ASTExitNode extends ASTNode<ASTExitNodeProps, never> {
-    _type = ASTNodeTypes.EXIT;
-    _props: ASTExitNodeProps;
-    _children = undefined as never;
+    protected override readonly _type = ASTNodeTypes.EXIT;
 
     constructor({ props }: { props: ASTExitNodeProps }) {
-        super();
-        this._props = props;
+        super({ props, children: undefined as never });
+    }
+
+    public override toStaticObject(): ASTStaticNode {
+        return {
+            type: this.type,
+            props: this.props,
+        }
     }
 }

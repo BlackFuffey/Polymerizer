@@ -1,7 +1,7 @@
 import { TypesCtx } from "@/cst/types";
 import CEbuilder from "@/utils/snippet";
-import Context from "@/ast/context";
-import { NonStdSize, SizeTooSmall } from "@/ast/errors";
+import Context from "@/ast/utils/context";
+import { NonStdSize, SizeTooSmall } from "@/ast/utils/errors";
 import { ASTExpTypes } from "@/ast/rules/expression/types";
 import { ASTType, IntTypeProps } from "../tstypes";
 import Helper from "../typehelper";

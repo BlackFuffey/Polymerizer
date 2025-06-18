@@ -1,3 +1,6 @@
+import { JsonObject } from "@/tstypes";
+
+// Union type of all concrete ASTType implementation
 export type ASTConcreteType = unknown;
 
 export enum ASTBaseTypes {
@@ -10,5 +13,5 @@ export enum ASTBaseTypes {
 export type ASTStaticType = {
     basetype: ASTBaseTypes;
     display: string;
-    props: object;
+    props: JsonObject;
 }

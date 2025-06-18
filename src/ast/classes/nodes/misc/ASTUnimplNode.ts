@@ -1,16 +1,20 @@
-import ASTNode from "../ASTNode";
-import { ASTNodeTypes } from "../tstypes";
+import { JsonObject } from "@/tstypes";
+import ASTNode from "../bases/ASTNode";
+import { ASTNodeTypes, ASTStaticNode } from "../tstypes";
 
-export default class ASTUnimplementedNode extends ASTNode<any, any>{
+export default class ASTUnimplementedNode extends ASTNode<JsonObject, never>{
     
-    _type = ASTNodeTypes.UNIMPLEMENTED
-    _children: any;
-    _props: any;
+    protected override readonly _type = ASTNodeTypes.UNIMPLEMENTED
 
-    constructor({ children, props }: { children: any, props: any }) {
-        super();
-        this._props = props;
-        this._children = children;
+    constructor({ props }: { props: JsonObject }) {
+        super({ props, children: undefined as never  });
+    }
+
+    public override toStaticObject(): ASTStaticNode {
+        return {
+            type: this.type,
+            props: this.props
+        }
     }
 
 }

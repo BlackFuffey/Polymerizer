@@ -1,7 +1,7 @@
 import { TypesCtx } from "@/cst/types";
 import CEbuilder from "@/utils/snippet";
-import Context from "@/ast/context";
-import { InvalidValue, NoFloatPreset, NonStdSize, SizeTooSmall } from "@/ast/errors";
+import Context from "@/ast/utils/context";
+import { InvalidValue, NoFloatPreset, NonStdSize, SizeTooSmall } from "@/ast/utils/errors";
 import Helper from "../typehelper";
 import { ASTExpTypes } from "@/ast/rules/expression/types";
 import { ASTType, FloatTypeProps } from "../tstypes";

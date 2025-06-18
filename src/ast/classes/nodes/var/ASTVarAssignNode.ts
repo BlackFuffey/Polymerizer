@@ -1,5 +1,5 @@
-import ASTNode from "../ASTNode";
-import { ASTNodeTypes } from "../tstypes";
+import ASTNode from "../bases/ASTNode";
+import { ASTNodeTypes, ASTStaticNode } from "../tstypes";
 
 type ASTVarAssignProps = {
     varname: string;
@@ -7,13 +7,12 @@ type ASTVarAssignProps = {
 }
 
 export default class ASTVarAssignNode extends ASTNode<ASTVarAssignProps, never> {
-    _type = ASTNodeTypes.VARIABLE_DECLARE;
-    _props: ASTVarAssignProps;
-    _children = undefined as never;
+    protected override readonly _type = ASTNodeTypes.VARIABLE_DECLARE;
 
-    constructor({ props }: { props: ASTVarAssignProps }) {
-        super();
-        this._props = props;
+    public constructor({ props }: { props: ASTVarAssignProps }) {
+        super({
+            props,
+            children: undefined as never
+        });
     }
-
 }

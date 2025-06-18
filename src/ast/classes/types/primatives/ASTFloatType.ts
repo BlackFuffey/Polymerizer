@@ -1,7 +1,7 @@
 import { IToken } from "chevrotain";
-import ASTNumericalType from "./ASTNumericalType";
-import ASTType from "./ASTType";
-import { ASTBaseTypes } from "./tstypes";
+import ASTNumericalType from "../bases/ASTNumericalType";
+import ASTType from "../bases/ASTType";
+import { ASTBaseTypes } from "../tstypes";
 
 type FloatTypeProps = {
     signed: boolean,
@@ -11,10 +11,6 @@ type FloatTypeProps = {
 
 export default class ASTFloatType extends ASTNumericalType<FloatTypeProps> {
     protected override readonly _basetype = ASTBaseTypes.FLOAT;
-
-    public static fromCstToken(token: IToken) {
-        
-    }
 
     public override get display(): string {
         const { signed, exp, frac } = this.props;
@@ -37,7 +33,7 @@ export default class ASTFloatType extends ASTNumericalType<FloatTypeProps> {
         return (signed ? 1 : 0) + exp + frac
     }
 
-    public override isCastableTo(type: ASTType<unknown>): boolean {
+    public override isCastableTo(type: ASTType<object>): boolean {
         const from = this.props;
         
         switch (type.basetype) {

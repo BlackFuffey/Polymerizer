@@ -1,5 +1,5 @@
-import ASTNode from "../ASTNode";
-import { ASTNodeTypes } from "../tstypes";
+import ASTNode from "../bases/ASTNode";
+import { ASTNodeTypes, ASTStaticNode } from "../tstypes";
 
 type ASTVarDeclareProps = {
     varname: string;
@@ -9,12 +9,8 @@ type ASTVarDeclareProps = {
 
 export default class ASTVarDeclareNode extends ASTNode<ASTVarDeclareProps, never> {
     _type = ASTNodeTypes.VARIABLE_DECLARE;
-    _props: ASTVarDeclareProps;
-    _children = undefined as never;
 
-    constructor({ props }: { props: ASTVarDeclareProps }) {
-        super();
-        this._props = props;
+    public constructor({ props }: { props: ASTVarDeclareProps }) {
+        super({ props, children: undefined as never });
     }
-
 }

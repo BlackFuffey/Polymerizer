@@ -1,4 +1,4 @@
-import ASTNode from "../ASTNode";
+import ASTNode from "../bases/ASTNode";
 import { ASTNodeTypes } from "../tstypes";
 
 type PrintNodeProps = {

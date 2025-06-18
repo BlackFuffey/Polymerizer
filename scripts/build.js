@@ -1,7 +1,7 @@
 import * as ESBuild from 'esbuild';
 
 await ESBuild.build({
-    entryPoints: ['app.ts'],
+    entryPoints: ['src/app.ts'],
     bundle: true,
     outdir: "build",
     platform: 'node',

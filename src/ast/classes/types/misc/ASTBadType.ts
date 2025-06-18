@@ -1,24 +1,36 @@
-import ASTType from "../ASTType";
-import { ASTBaseTypes } from "../tstypes";
+import { JsonValue } from "@/tstypes";
+import ASTType from "../bases/ASTType";
+import { ASTBaseTypes, ASTStaticType } from "../tstypes";
 
-export default class ASTBadType extends ASTType<any> {
+type BadTypeProps = {
+    reason: string,
+    debuginfo?: JsonValue
+}
+
+export default class ASTBadType extends ASTType<BadTypeProps> {
     protected override readonly _basetype = ASTBaseTypes.BAD_TYPE;
-    private _display: string;
 
-    constructor({ props, display }: { props: any, display: string }) {
+    constructor({ props }: { props: BadTypeProps }) {
         super({ props });
-        this._display = display;
     }
 
     public override get display(): string {
-        return this._display;
+        return '';
     }
 
     public override get isValid(): boolean {
         return false;
     }
 
-    public override isCastableTo(type: ASTType<unknown>): boolean {
+    public override isCastableTo(): boolean {
         return false;
+    }
+
+    public override toStaticObject(): ASTStaticType {
+        return {
+            props: this.props,
+            display: this.display,
+            basetype: this.basetype
+        }
     }
 }

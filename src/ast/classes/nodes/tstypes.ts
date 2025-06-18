@@ -1,4 +1,5 @@
-import { ASTProgramNode } from "./ASTProgramNode";
+import { JsonObject } from "@/tstypes";
+import { ASTProgramNode } from "./core/ASTProgramNode";
 
 export type ASTConcreteNode = ASTProgramNode;
 
@@ -14,6 +15,6 @@ export enum ASTNodeTypes {
 
 export type ASTStaticNode = {
     type: ASTNodeTypes;
-    props?: object;
-    children?: object[];
+    props?: JsonObject;
+    children?: ASTStaticNode[];
 }

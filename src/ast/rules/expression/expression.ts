@@ -1,8 +1,8 @@
 import { ExpressionCtx } from "@/cst/types";
 import CEbuilder from "@/utils/snippet";
 import { KevlarVisitor } from "@/ast/ast";
-import Context from "@/ast/context";
-import { VariableUndeclared } from "@/ast/errors";
+import Context from "@/ast/utils/context";
+import { VariableUndeclared } from "@/ast/utils/errors";
 import { visitBoolLiteralCtx, visitFloatLiteralCtx, visitIntLiteralCtx } from "./literals/literals";
 import { ASTExpression, ASTExpTypes } from "./types";
 

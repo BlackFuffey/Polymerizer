@@ -1,7 +1,7 @@
 import { KevlarVisitorBase } from "../cst/cst";
 import { CstNode } from "chevrotain";
 import includeKevlarASTRules from "./rules/rules";
-import Context from "./context";
+import Context from "./utils/context";
 
 export class KevlarVisitor extends KevlarVisitorBase {
 

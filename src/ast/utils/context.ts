@@ -1,5 +1,5 @@
 import { CompileError } from "@/tstypes";
-import { ASTType } from "./rules/typing/tstypes";
+import { ASTType } from "../rules/typing/tstypes";
 
 type ContextType = {
     variables: {

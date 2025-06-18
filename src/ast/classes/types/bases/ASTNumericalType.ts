@@ -1,7 +1,7 @@
 import ASTType from "./ASTType";
-import { ASTBaseTypes } from "./tstypes";
+import { ASTBaseTypes } from "../tstypes";
 
-export default abstract class ASTNumericalType<PropT> extends ASTType<PropT> {
+export default abstract class ASTNumericalType<PropT extends object> extends ASTType<PropT> {
 
     public abstract get isAligned(): boolean;
 

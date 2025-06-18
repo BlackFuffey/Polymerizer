@@ -1,7 +1,7 @@
 import { IToken } from "chevrotain";
-import ASTNumericalType from "./ASTNumericalType";
-import ASTType from "./ASTType";
-import { ASTBaseTypes } from "./tstypes";
+import ASTNumericalType from "../bases/ASTNumericalType";
+import ASTType from "../bases/ASTType";
+import { ASTBaseTypes } from "../tstypes";
 
 type IntTypeProps = {
     size: number;
@@ -46,14 +46,14 @@ export default class ASTIntType extends ASTNumericalType<IntTypeProps> {
         return this.props.size;
     }
 
-    public override isCastableTo(type: ASTType<unknown>) {
+    public override isCastableTo(type: ASTType<object>) {
         return this.props.signed ?
             this._isCastableSigned(type) :
             this._isCastableUnsigned(type);
     }
 
     // isCastableTo implementation for when self is signed
-    private _isCastableSigned(type: ASTType<unknown>): boolean {
+    private _isCastableSigned(type: ASTType<object>): boolean {
         switch (type.basetype) {
             case ASTBaseTypes.INT:
                 const to = type as ASTIntType;
@@ -64,7 +64,7 @@ export default class ASTIntType extends ASTNumericalType<IntTypeProps> {
     }
 
     // isCastableTo implementation for when self is unsigned
-    private _isCastableUnsigned(type: ASTType<unknown>): boolean {
+    private _isCastableUnsigned(type: ASTType<object>): boolean {
         switch (type.basetype) {
 case ASTBaseTypes.INT:
                 const to = type as ASTIntType;
