@@ -1,7 +1,6 @@
-import { IToken } from "chevrotain";
 import ASTNumericalType from "../bases/ASTNumericalType";
 import ASTType from "../bases/ASTType";
-import { ASTBaseTypes } from "../tstypes";
+import { ASTBaseTypes, ASTStaticType } from "../tstypes";
 
 type FloatTypeProps = {
     signed: boolean,
@@ -56,6 +55,15 @@ export default class ASTFloatType extends ASTNumericalType<FloatTypeProps> {
                 );
 
             default: return false;
+        }
+    }
+
+    public override toStaticObject(): ASTStaticType {
+        const { signed, exp, frac } = this.props;
+        return {
+            basetype: this.basetype,
+            display: `float<${Number(signed)},${exp},${frac}>`,
+            props: this.props
         }
     }
 

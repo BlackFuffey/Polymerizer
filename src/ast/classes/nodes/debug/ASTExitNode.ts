@@ -1,8 +1,10 @@
+import ASTExpression from "../../expressions/bases/ASTExpression";
+import ASTIntType from "../../types/primatives/ASTIntType";
 import ASTNode from "../bases/ASTNode";
 import { ASTNodeTypes, ASTStaticNode } from "../tstypes";
 
 type ASTExitNodeProps = {
-    exitCode: unknown;
+    exitCode: ASTExpression<object, ASTIntType>;
 }
 
 export default class ASTExitNode extends ASTNode<ASTExitNodeProps, never> {
@@ -15,7 +17,9 @@ export default class ASTExitNode extends ASTNode<ASTExitNodeProps, never> {
     public override toStaticObject(): ASTStaticNode {
         return {
             type: this.type,
-            props: this.props,
+            props: {
+                exitCode: this.props.exitCode.toStaticObject()
+            }
         }
     }
 }

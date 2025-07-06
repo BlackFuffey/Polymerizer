@@ -1,7 +1,17 @@
 import { JsonObject } from "@/tstypes";
 import { ASTProgramNode } from "./core/ASTProgramNode";
+import ASTExitNode from "./debug/ASTExitNode";
+import ASTPrintNode from "./debug/ASTPrintNode";
+import ASTVarAssignNode from "./var/ASTVarAssignNode";
+import ASTVarDeclareNode from "./var/ASTVarDeclareNode";
+import ASTUnimplementedNode from "./misc/ASTUnimplNode";
 
-export type ASTConcreteNode = ASTProgramNode;
+export type ASTConcreteNode = (
+    ASTProgramNode |                            // core
+    ASTExitNode | ASTPrintNode |                // debug
+    ASTUnimplementedNode |                      // misc
+    ASTVarAssignNode | ASTVarDeclareNode        // var
+);
 
 export enum ASTNodeTypes {
     PROGRAM                     = "PROGRAM",

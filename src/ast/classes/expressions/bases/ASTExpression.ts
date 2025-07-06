@@ -1,4 +1,5 @@
 import { ASTConcreteType } from "../../types/tstypes";
+import { ASTStaticExpression } from "../tstypes";
 
 export default abstract class ASTExpression<CompT extends object, TypeT extends ASTConcreteType> {
     protected _type: TypeT;
@@ -9,6 +10,8 @@ export default abstract class ASTExpression<CompT extends object, TypeT extends 
         this._components = components;
         this._type = type;
     }
+
+    public abstract toStaticObject(): ASTStaticExpression
 
     public get components(): CompT {
         return this._components;

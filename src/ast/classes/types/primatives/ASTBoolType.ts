@@ -1,6 +1,6 @@
 import { IToken } from "chevrotain";
 import ASTType from "../bases/ASTType";
-import { ASTBaseTypes } from "../tstypes";
+import { ASTBaseTypes, ASTStaticType } from "../tstypes";
 
 export default class ASTBooleanType extends ASTType<never> {
     protected override readonly _basetype = ASTBaseTypes.BOOL;
@@ -21,5 +21,13 @@ export default class ASTBooleanType extends ASTType<never> {
 
     public override isCastableTo(type: ASTType<object>): boolean {
         return type.basetype === ASTBaseTypes.BOOL;
+    }
+
+    public override toStaticObject(): ASTStaticType {
+        return {
+            basetype: this.basetype,
+            display: 'bool',
+            props: {}
+        }
     }
 }

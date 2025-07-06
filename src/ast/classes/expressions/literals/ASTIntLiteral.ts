@@ -12,8 +12,6 @@ type IntLiteralComps = {
 
 export default class ASTIntLiteral extends ASTLiteralExpression<IntLiteralComps, ASTIntType | ASTBadType> {
 
-    
-
     public constructor({ sign, value }: { sign: boolean, value: number }) {
         if (value < 0 || value % 1 !== 0) {
             super({
@@ -22,8 +20,7 @@ export default class ASTIntLiteral extends ASTLiteralExpression<IntLiteralComps,
                 }, 
                 type: new ASTBadType({ 
                     props: {
-                        
-                    }
+        }
                 })
             })
         }
